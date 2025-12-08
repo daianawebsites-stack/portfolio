@@ -818,7 +818,10 @@
                 column-count: 2;
                 column-gap: 40px;
                 max-width: none;
+                display: flex;
             }
+            #screen-38 .column{
+                flex: 1;
         }
         
         .animate-on-scroll.animated {
