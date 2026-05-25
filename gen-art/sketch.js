@@ -8,6 +8,7 @@ let saveButton, mouseButton, newArtButton, clearScreenButton;
 let radioBackground, radioFruits, radioFlower, radioImage, radioSize, radioPos;
 
 let img1, img2, img3, img4, img5, img6, img0;
+let interFont;
 
 function preload(){
   
@@ -18,7 +19,8 @@ function preload(){
   img4 = loadImage("images/lotus-yellow.png");
   img5 = loadImage("images/leaves01.png");
   img6 = loadImage("images/leaves02.png");
-  img0 = loadImage("images/empty.svg"); 
+  img0 = loadImage("images/empty.svg");
+  interFont = loadFont("assets/Inter.ttf");
 }
 
 function setup() {
@@ -28,8 +30,8 @@ function setup() {
 
   background(248, 248, 248);
 
-  textAlign(CENTER); 
-  loadFont("assets/Inter.ttf");
+  textAlign(CENTER);
+  textFont("Inter");
   textSize(32);
   fill(0);
   text('Start your artwork by selecting options below', 560, 315);
@@ -42,18 +44,18 @@ function setup() {
   radioBackground.option('1', 'Background particles');
   radioBackground.option('2', 'Background big cirlces');
   radioBackground.selected('Background particle');
-  radioBackground.style("width", "130px");
+  radioBackground.style("width", "180px");
   radioBackground.style("line-height", "2");
-  radioBackground.position(10, height+10);
+  radioBackground.position(10, height+2);
   
   radioFruits = createRadio('Fruits').parent('stage');
   radioFruits.addClass('radiostyle');
   radioFruits.option('1', 'Cherry Image');
   radioFruits.option('2', 'Apple Image');
   radioFruits.option('0', 'No Fruits');
-  radioFruits.style("width", "100px");
+  radioFruits.style("width", "115px");
   radioFruits.style("line-height", "2");
-  radioFruits.position(165, height+10);
+  radioFruits.position(200, height+2);
   
   radioFlower = createRadio('Lotus').parent('stage');
   radioFlower.addClass('radiostyle');
@@ -61,9 +63,9 @@ function setup() {
   radioFlower.option('4', 'Lotus in Yellow');
   radioFlower.option('0', 'No Lotus');
   radioFlower.selected('Lotus in Red');
-  radioFlower.style("width", "100px");
+  radioFlower.style("width", "140px");
   radioFlower.style("line-height", "2");
-  radioFlower.position(260, height+10);
+  radioFlower.position(325, height+2);
   
   radioImage = createRadio('Mandalas').parent('stage');
   radioImage.addClass('radiostyle');
@@ -71,18 +73,18 @@ function setup() {
   radioImage.option('6', 'Leaves yellow');
   radioImage.option('0', 'No Image');
   radioImage.selected('Mandala Brown');
-  radioImage.style("width", "100px");
+  radioImage.style("width", "120px");
   radioImage.style("line-height", "2");
-  radioImage.position(360, height+10);
+  radioImage.position(475, height+2);
   
   radioSize = createRadio('Size').parent('stage');
   radioSize.addClass('radiostyle');
   radioSize.option('1', 'Small circles');
   radioSize.option('2', 'Medium circles');
   radioSize.selected('Small');
-  radioSize.style("width", "100px");
+  radioSize.style("width", "130px");
   radioSize.style("line-height", "2");
-  radioSize.position(470, height+10);
+  radioSize.position(605, height+2);
   
   radioPos = createRadio('Position').parent('stage');
   radioPos.addClass('radiostyle');
@@ -90,23 +92,23 @@ function setup() {
   radioPos.option('2', '  Right composition      ');
   radioPos.option('3', '    Left composition');
   radioPos.selected('Center');
-  radioPos.style("width", "120px");
+  radioPos.style("width", "160px");
   radioPos.style("line-height", "2");
-  radioPos.position(570, height+10);
+  radioPos.position(745, height+2);
   
   newArtButton = createButton('New Art').parent('stage');
   newArtButton.addClass('radiostylebutton');
   newArtButton.mousePressed(newArt);
   newArtButton.style("width", "80px");
   newArtButton.style("line-height", "2");
-  newArtButton.position(1020, height+20);
+  newArtButton.position(1020, height+10);
   
   saveButton = createButton('save').parent('stage');
   saveButton.addClass('radiostylebutton');
   saveButton.mousePressed(saveFile);
   saveButton.style("width", "80px");
   saveButton.style("line-height", "2");
-  saveButton.position(1020, height+50);
+  saveButton.position(1020, height+56);
 }
 
 function saveFile() {
