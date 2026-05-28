@@ -1,1 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f9f9fc" />
+    <!-- iOS PWA: opens fullscreen (no Safari bars) when added to Home Screen -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Dr. Colleen" />
+    <title>Dr. Colleen. Science-backed, personalized support for the menopause transition.</title>
+    <meta name="description" content="Personalized AI companion for women navigating menopause. Custom recommendations for symptoms, foods, and supplements based on your profile." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+      html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        width: 100%;
+        background: #f9f9fc;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        width: 100%;
+        font-family: 'Montserrat', sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        /* Desktop backdrop visible around the device frame.
+           On mobile (< 600px) the .device-shell covers body completely,
+           so this color never shows. */
+        background: #EDEEF3;
+      }
+      #root {
+        margin: 0;
+        padding: 0;
+        background: #f9f9fc;
+        /* Positioned ancestor on every viewport so position:absolute scrims
+           (DSActionSheet / DSChecklistSheet / DSConfirmationDialog) stay
+           confined to the app surface instead of escaping to <body>. */
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+      .device-shell {
+        width: 100%;
+        height: 100%;
+      }
 
+      /* === Desktop (≥ 600px): phone frame, variant B "Thin" ===
+         8px navy border · 36px outer radius · pill notch
+         9:19.5 aspect ratio · max-height 880px or 92vh
+         Single URL behavior — mobile gets fullscreen, desktop gets framed app. */
+      @media (min-width: 600px) {
+        body {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .device-shell {
+          position: relative;
+          width: auto;
+          height: min(880px, 92vh);
+          aspect-ratio: 9 / 19.5;
+          background: #2D2D2D;
+          border-radius: 36px;
+          padding: 8px;
+          box-shadow:
+            0 30px 60px -20px rgba(0, 0, 0, 0.35),
+            0 8px 24px -8px rgba(0, 0, 0, 0.18);
+          /* Clip both #root and any escaping scrim/shadow to the rounded
+             outer shape — avoids the 1px sub-pixel gap that appeared on
+             the right edge when #root had its own border-radius mismatched
+             against the parent's inner padded radius. */
+          overflow: hidden;
+          /* Form a stacking context so the notch + frame-ring pseudo-elements
+             always paint above #root's content regardless of any high
+             z-index values inside the app. */
+          isolation: isolate;
+        }
+        /* Frame ring — 8px solid border rendered ON TOP of #root content so
+           the rounded corners always look like the bezel is covering the
+           inner app. The inner radius is implicit from border + border-radius
+           (36px outer - 8px border = 28px inner). pointer-events:none so it
+           doesn't intercept taps inside the frame. z-index 2 = above #root,
+           below the notch (z-index 3). */
+        .device-shell::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+          border: 8px solid #2D2D2D;
+          border-radius: 36px;
+          pointer-events: none;
+          z-index: 2;
+        }
+        /* Notch / speaker pill removed per design — clean top edge. */
+        #root {
+          width: 100%;
+          height: 100%;
+          position: relative;
+          /* No border-radius / overflow here — .device-shell's overflow:hidden
+             clips uniformly so there's no rounding mismatch on the inner edge. */
+          /* Isolate #root into its own stacking context so the high-z-index
+             modal scrim portaled inside #root (zIndex 9999) doesn't paint over
+             the device-shell's notch pseudo-element (z-index 2). With isolation,
+             #root + everything in it composites as a single layer below the
+             notch inside .device-shell's stacking context. */
+          isolation: isolate;
+        }
+      }
+
+      * { box-sizing: border-box; }
+      input[type="number"]::-webkit-inner-spin-button,
+      input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+      input[type="number"] {
+        -moz-appearance: textfield;
+        appearance: textfield;
+      }
+      /* Placeholder color — design-system muted (brand-500 #7A709D) instead
+         of the browser default light gray. Firefox defaults ::placeholder
+         opacity to 0.5; explicit `opacity: 1` overrides so the muted color
+         renders at full intensity. Applies to all input + textarea in the
+         app (Sleep TONIGHT cell, Quiz height/weight, Contact Me fields,
+         chat composer, etc). */
+      input::placeholder,
+      textarea::placeholder {
+        color: #7A709D;
+        opacity: 1;
+      }
+    </style>
+    <script type="module" crossorigin src="/dr-colleen-app/demo/assets/index-IDVxNssY.js"></script>
+  </head>
+  <body>
+    <div class="device-shell">
+      <div id="root"></div>
+    </div>
+  </body>
+</html>
