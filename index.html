@@ -1,1218 +1,2051 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daiana - Design Portfolio</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Work+Sans:wght@300;400;500&family=Ms+Madi&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --black: #000000;
-            --white: #FFFFFF;
-            --gray: #666666;
-            --light-gray: #F8F8F8;
-        }
-
-        body {
-            font-family: 'Work Sans', sans-serif;
-            font-weight: 300;
-            line-height: 1.8;
-            color: var(--black);
-            background-color: var(--white);
-            overflow-x: hidden;
-        }
-
-        p {
-            font-size: 18px;
-            line-height: 1.8;
-        }
-
-        /* Typography */
-        h1, h2, h3 {
-            font-family: 'Abril Fatface', serif;
-            font-weight: 400;
-            line-height: 1.2;
-        }
-
-        h1 {
-            font-size: clamp(2rem, 5vw, 4rem);
-            letter-spacing: -0.01em;
-        }
-
-        h2 {
-            font-size: clamp(2rem, 5vw, 4rem);
-            letter-spacing: -0.01em;
-            margin-bottom: 3rem;
-        }
-
-        h3 {
-            font-size: clamp(1.5rem, 3vw, 2.5rem);
-            letter-spacing: -0.01em;
-            margin-bottom: 1.5rem;
-        }
-
-        /* Layout */
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 5vw;
-        }
-
-        section {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            padding: 10vh 0;
-            scroll-margin-top: 6rem;
-        }
-
-        /* Scroll animation classes */
-        .project,
-        .about-content > div,
-        section h2 {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-
-        .project.visible,
-        .about-content > div.visible,
-        section h2.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .project.fade-out,
-        .about-content > div.fade-out,
-        section h2.fade-out {
-            opacity: 0.3;
-            transform: translateY(-10px);
-        }
-
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-            }
-        }
-
-        /* Hero Section */
-        .hero {
-            position: relative;
-            border-bottom: 1px solid var(--black);
-        }
-
-        .hero-content {
-            width: 100%;
-        }
-
-        /* Hero Slider */
-        .hero-slider {
-            position: relative;
-            min-height: 450px;
-            margin-top: 8rem;
-            margin-bottom: 5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .slider-instance {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%;
-            max-width: 900px;
-            opacity: 0;
-            pointer-events: none;
-            display: flex;
-            justify-content: center;
-        }
-
-        .slider-instance.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .instance-layout {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            justify-content: center;
-            width: 100%;
-            gap: 0;
-        }
-
-        /* Line 1 - Big text */
-        .line-1 {
-            font-size: clamp(3.5rem, 4vw, 5.5rem);
-            line-height: 1;
-            letter-spacing: -0.02em;
-            opacity: 0;
-            transform: translateY(30px);
-            margin-bottom: 0;
-        }
-
-        .line-1.serif {
-            font-family: 'Abril Fatface', serif;
-        }
-
-        .line-1.sans-italic {
-            font-family: 'Work Sans', sans-serif;
-            font-style: italic;
-            font-weight: 300;
-        }
-
-        .line-1.script {
-            font-family: 'Ms Madi', cursive;
-            font-weight: 400;
-            
-        }
-
-        .line-1.script.larger {
-            font-size: clamp(5.5rem, 6vw, 6.75rem);
-            letter-spacing: 0.01em;
-            margin-bottom: -0.25em;
-        }
-
-        .line-1.script.smaller {
-            font-size: clamp(3.8rem, 4vw, 4.75rem);
-            letter-spacing: 0.01em;
-            margin-bottom: -0.2em;
-        }
-
-        /* Line 2 - Small text (overlapping) with negative style */
-        .line-2 {
-            font-size: clamp(2.75rem, 3vw, 3.5rem);
-            line-height: 1;
-            letter-spacing: -0.01em;
-            opacity: 0;
-            transform: translateY(30px);
-            background: var(--black);
-            color: var(--white);
-            display: inline-block;
-            margin: 0;
-        }
-
-        .line-2.serif {
-            font-family: 'Abril Fatface', serif;
-        }
-
-        .line-2.sans-italic {
-            font-family: 'Work Sans', sans-serif;
-            font-style: italic;
-            font-weight: 300;
-        }
-
-        .line-2.script {
-            font-family: 'Ms Madi', cursive;
-            font-weight: 400;
-        }
-
-        /* Selection inversion for Line 1 and Line 2 */
-        .line-1::selection {
-            background: var(--black);
-            color: var(--white);
-        }
-
-        .line-2::selection {
-            background: var(--white);
-            color: var(--black);
-        }
-
-        /* Description Container - Rectangle with stroke */
-        .description-container {
-            position: relative;
-            z-index: -1;
-            opacity: 0;
-            margin-top: -1.5rem;
-            display: inline-block;
-            align-self: center;
-        }
-
-        .description-box {
-            border: 1px solid var(--black);
-            padding: 2.5rem 3.5rem;
-            position: relative;
-            background: var(--white);
-            box-sizing: border-box;
-        }
-
-        /* Animated stroke using SVG-like path drawing */
-        .description-box::before {
-            content: '';
-            position: absolute;
-            top: -1px;
-            left: -1px;
-            right: -1px;
-            bottom: -1px;
-            background: 
-                linear-gradient(to right, var(--black) 0%, var(--black) 100%) top left,
-                linear-gradient(to bottom, var(--black) 0%, var(--black) 100%) top right,
-                linear-gradient(to left, var(--black) 0%, var(--black) 100%) bottom right,
-                linear-gradient(to top, var(--black) 0%, var(--black) 100%) bottom left;
-            background-size: 0% 1px, 1px 0%, 0% 1px, 1px 0%;
-            background-repeat: no-repeat;
-            z-index: 0;
-        }
-
-        .slider-instance.active .description-box::before {
-            animation: drawStrokePath 0.8s ease-in-out forwards;
-            animation-delay: 0.4s;
-        }
-
-        @keyframes drawStrokePath {
-            0% {
-                /* Start at top-left corner +0.5 (slightly past the corner on top edge) */
-                background-size: 0% 1px, 1px 0%, 0% 1px, 1px 0%;
-                background-position: 0.5% top, right 0%, 100% bottom, left 100%;
-            }
-            25% {
-                /* Draw top edge fully, start right edge */
-                background-size: 100% 1px, 1px 0%, 0% 1px, 1px 0%;
-                background-position: left top, right 0%, 100% bottom, left 100%;
-            }
-            50% {
-                /* Top and right edges complete, start bottom edge */
-                background-size: 100% 1px, 1px 100%, 0% 1px, 1px 0%;
-                background-position: left top, right top, 100% bottom, left 100%;
-            }
-            75% {
-                /* Top, right, bottom complete, start left edge */
-                background-size: 100% 1px, 1px 100%, 100% 1px, 1px 0%;
-                background-position: left top, right top, right bottom, left 100%;
-            }
-            100% {
-                /* Complete the stroke ending at top-left corner -0.5 (slightly before reaching the corner) */
-                background-size: 100% 1px, 1px 100%, 100% 1px, 1px 99.5%;
-                background-position: left top, right top, right bottom, left top;
-            }
-        }
-
-        .description-container p {
-            font-size: 18px;
-            font-weight: 300;
-            line-height: 1.7;
-            color: var(--gray);
-            text-align: center;
-            margin: 0;
-            position: relative;
-            z-index: 1;
-            max-width: 450px;
-            min-width: 400px;
-        }
-
-        /* Animations */
-        .slider-instance.active .line-1 {
-            animation: slideInText 0.8s ease forwards;
-        }
-
-        .slider-instance.active .line-2 {
-            animation: slideInText 0.8s ease forwards;
-            animation-delay: 0.2s;
-        }
-
-        .slider-instance.active .description-container {
-            animation: fadeInText 0.8s ease forwards;
-            animation-delay: 0.4s;
-        }
-
-        @keyframes slideInText {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInText {
-            to {
-                opacity: 1;
-            }
-        }
-
-        .slider-instance.fade-out {
-            animation: fadeOutInstance 0.6s ease forwards;
-        }
-
-        @keyframes fadeOutInstance {
-            to {
-                opacity: 0;
-            }
-        }
-
-        /* Navigation Menu */
-        .nav-menu {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: var(--white);
-            padding: 2rem 5vw;
-            border-bottom: 1px solid var(--black);
-            overflow: visible;
-        }
-
-        .nav-title {
-            font-family: 'Abril Fatface', serif;
-            font-size: clamp(1.25rem, 1.5vw, 2rem);
-            letter-spacing: -0.01em;
-            font-weight: 400;
-            z-index: 1001;
-            cursor: pointer;
-            transition: color 0.3s ease;
-            padding: 0.25rem 0.5rem;
-            margin-left: -0.5rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .nav-title::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 0;
-            background: var(--black);
-            transition: height 0.4s ease, opacity 0.4s ease;
-            opacity: 0;
-            z-index: -1;
-        }
-
-        .nav-title:hover::before {
-            height: 100%;
-            opacity: 1;
-        }
-
-        .nav-title:hover {
-            color: var(--white);
-        }
-
-        .nav-items {
-            display: flex;
-            gap: 2rem;
-            position: relative;
-            overflow: visible;
-        }
-
-        .nav-item {
-            position: relative;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            padding: 0.5rem 0.75rem;
-            overflow: visible;
-        }
-
-        .nav-item::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 0;
-            background: var(--black);
-            transition: height 0.4s ease, opacity 0.4s ease;
-            opacity: 0;
-            z-index: -1;
-        }
-
-        .nav-item:hover::before {
-            height: 100%;
-            opacity: 1;
-        }
-
-        .nav-number {
-            font-size: 1rem;
-            font-weight: 500;
-            letter-spacing: 0.1em;
-            color: var(--black);
-            transition: color 0.3s ease;
-            position: relative;
-            z-index: 1;
-        }
-
-        .nav-label {
-            position: absolute;
-            top: 100%;
-            right: 0;
-            margin-top: 0.5rem;
-            font-size: 0.875rem;
-            white-space: nowrap;
-            opacity: 0;
-            transform: translateY(-10px);
-            transition: all 0.3s ease;
-            pointer-events: none;
-            background: var(--black);
-            color: var(--white);
-            padding: 0.5rem 1rem;
-            z-index: 1002;
-        }
-
-        .nav-item:hover .nav-number {
-            color: var(--white);
-        }
-
-        .nav-item:hover .nav-label {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Hide nav-label on mobile/tablet */
-        @media (max-width: 1024px) {
-            .nav-label {
-                display: none;
-            }
-        }
-
-        .nav-item.active .nav-number {
-            text-decoration: underline;
-        }
-
-        /* Hamburger Menu */
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            gap: 0.4rem;
-            cursor: pointer;
-            z-index: 1001;
-            padding: 0.5rem;
-        }
-
-        .hamburger span {
-            display: block;
-            width: 25px;
-            height: 2px;
-            background: var(--black);
-            transition: all 0.3s ease;
-        }
-
-        .hamburger.active span:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 5px);
-        }
-
-        .hamburger.active span:nth-child(2) {
-            opacity: 0;
-        }
-
-        .hamburger.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(7px, -6px);
-        }
-
-        /* Mobile Menu Overlay */
-        .mobile-menu-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            background: var(--white);
-            z-index: 999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-
-        .mobile-menu-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .mobile-menu-items {
-            display: flex;
-            flex-direction: column;
-            gap: 3rem;
-            text-align: center;
-        }
-
-        .mobile-nav-item {
-            cursor: pointer;
-        }
-
-        .mobile-nav-number {
-            font-size: 0.875rem;
-            font-weight: 500;
-            letter-spacing: 0.15em;
-            margin-bottom: 0.5rem;
-            color: var(--gray);
-        }
-
-        .mobile-nav-label {
-            font-family: 'Abril Fatface', serif;
-            font-size: clamp(1.5rem, 4vw, 2.5rem);
-            letter-spacing: -0.01em;
-            transition: color 0.3s ease;
-        }
-
-        .mobile-nav-item:hover .mobile-nav-label {
-            color: var(--gray);
-        }
-
-        /* Portfolio Sections */
-        .portfolio-section {
-            border-bottom: 1px solid var(--black);
-        }
-
-        .section-header {
-            margin-bottom: 5rem;
-        }
-
-        .section-number {
-            font-size: 1rem;
-            font-weight: 500;
-            letter-spacing: 0.1em;
-            margin-bottom: 1rem;
-            color: var(--gray);
-        }
-
-        .project-grid {
-            display: grid;
-            gap: 8rem;
-        }
-
-        .project {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 5rem;
-            align-items: start;
-        }
-
-        .project:nth-child(even) {
-            grid-template-columns: 1fr 1fr;
-        }
-
-        .project:nth-child(even) .project-content {
-            order: 2;
-        }
-
-        .project:nth-child(even) .project-visual {
-            order: 1;
-        }
-
-        .project-visual {
-            background: var(--light-gray);
-            aspect-ratio: 4/3;
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.6s ease;
-        }
-
-        .project:hover .project-visual {
-            transform: scale(0.98);
-        }
-
-        .project-visual::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 80%;
-            height: 80%;
-            border: 1px solid var(--black);
-            opacity: 0.1;
-        }
-
-        .project-content h3 {
-            margin-bottom: 1.5rem;
-            cursor: pointer;
-            position: relative;
-            display: inline-block;
-            padding: 0.25rem 0.5rem;
-            margin-left: -0.5rem;
-            overflow: hidden;
-            transition: color 0.3s ease;
-        }
-
-        .project-content h3::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 0;
-            background: var(--black);
-            transition: height 0.4s ease;
-            z-index: -1;
-        }
-
-        .project-content h3:hover::before {
-            height: 100%;
-        }
-
-        .project-content h3:hover {
-            color: var(--white);
-        }
-
-        .project-description {
-            font-size: 18px;
-            line-height: 1.8;
-            margin-bottom: 2rem;
-            color: var(--gray);
-        }
-
-        .project-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.75rem;
-        }
-
-        .tag {
-            font-size: 0.875rem;
-            padding: 0.5rem 1.25rem;
-            border: 1px solid var(--black);
-            transition: all 0.3s ease;
-        }
-
-        .tag:hover {
-            background: var(--black);
-            color: var(--white);
-        }
-
-        /* About Section */
-        .about-section {
-            border-bottom: 1px solid var(--black);
-        }
-
-        .about-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8rem;
-        }
-
-        .about-text {
-            font-size: 18px;
-            line-height: 1.9;
-        }
-
-        .about-text p {
-            margin-bottom: 1.5rem;
-        }
-
-        .about-details h4 {
-            font-family: 'Work Sans', sans-serif;
-            font-size: 0.875rem;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            margin-bottom: 1.5rem;
-            margin-top: 3rem;
-            font-weight: 500;
-        }
-
-        .about-details h4:first-child {
-            margin-top: 0;
-        }
-
-        .about-details ul {
-            list-style: none;
-        }
-
-        .about-details li {
-            font-size: 1rem;
-            line-height: 1.8;
-            margin-bottom: 0.5rem;
-            padding-left: 1.5rem;
-            position: relative;
-        }
-
-        .about-details li::before {
-            content: '•';
-            position: absolute;
-            left: 0;
-        }
-
-        .skills-group {
-            margin-bottom: 2rem;
-        }
-
-        .skills-category {
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-        }
-
-        /* Footer */
-        footer {
-            padding: 5vh 0;
-            text-align: center;
-        }
-
-        footer p {
-            font-size: 0.875rem;
-            color: var(--gray);
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-        }
-
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .nav-menu {
-                padding: 1.5rem 5vw;
-            }
-
-            .nav-items {
-                display: none;
-            }
-
-            .hamburger {
-                display: flex;
-            }
-
-            .nav-title {
-                font-size: clamp(1.5rem, 3vw, 2rem);
-            }
-
-            .project {
-                grid-template-columns: 1fr !important;
-                gap: 3rem;
-            }
-
-            .project:nth-child(even) .project-content,
-            .project:nth-child(even) .project-visual {
-                order: initial;
-            }
-
-            .about-content {
-                grid-template-columns: 1fr;
-                gap: 4rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .nav-menu {
-                padding: 1rem 5vw;
-            }
-
-            .hero-slider {
-                min-height: 400px;
-                margin-top: 6rem;
-                margin-bottom: 3rem;
-            }
-
-            .line-1 {
-                font-size: clamp(2.5rem, 5vw, 6rem);
-                margin-bottom: 0;
-            }
-
-            .line-1.script.larger{
-                font-size: clamp(4rem, 6vw, 7rem);
-            }
-
-            .line-1.line-1.script.smaller{
-                font-size: clamp(2.75rem, 4vw, 5rem);
-            }
-
-            .line-2 {
-                font-size: clamp(2.2rem, 3.2vw, 3.5rem);
-            }
-
-
-
-            .description-container {
-                margin-top: -0.75rem;
-            }
-
-            .description-box {
-                padding: 2rem 2.5rem;
-            }
-
-            .description-container p {
-                font-size: 16px;
-                max-width: 85vw;
-                min-width: auto;
-            }
-
-            section {
-                padding: 8vh 0;
-            }
-
-            h2 {
-                margin-bottom: 2rem;
-            }
-
-            .project-grid {
-                gap: 5rem;
-            }
-        }
-
-        /* Scroll behavior */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* Selection */
-        ::selection {
-            background: var(--black);
-            color: var(--white);
-        }
-    </style>
-
-        <!-- ///// FABVICON ////// -->
-    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
-    <link rel="icon" href="img/favicon.ico" type="image/x-icon">
-
-    
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daiana Yurzola — Designer of motion, interaction, and experience. (Variant B — capability cards)</title>
+<meta name="description" content="Cross-disciplinary designer with 10+ years across visual, motion, and interaction design. Currently building AI-powered conversational experiences with Claude.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alice&family=Libre+Baskerville:ital@0;1&family=Merriweather:ital,wght@0,800;1,400&family=Ms+Madi&family=Nunito:wght@900&family=Oswald:wght@700&family=Playfair+Display:ital,wght@0,400;1,800&family=Quicksand:wght@500;700&family=Sacramento&family=Work+Sans:wght@300;400;500&family=Yeseva+One&display=swap" rel="stylesheet">
+<!-- LottieFiles player web component — used for local .json Lottie covers (e.g. Rive Buttons cover) -->
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+<style>
+/* ============================================
+   TOKENS
+   ============================================ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+    --black: #000;
+    --white: #FFF;
+    --gray: #666;
+    --light-gray: #F8F8F8;
+}
+html { scroll-behavior: smooth; }
+body {
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--black);
+    background: var(--white);
+    overflow-x: hidden;
+}
+::selection { background: var(--black); color: var(--white); }
+
+h1, h2, h3 { font-family: 'Abril Fatface', serif; font-weight: 400; line-height: 1.1; letter-spacing: -0.01em; }
+h2 { font-size: clamp(2rem, 5vw, 4rem); }
+h3 { font-size: clamp(1.5rem, 3vw, 2.5rem); }
+a { color: inherit; }
+
+.container { max-width: 1400px; margin: 0 auto; padding: 0 5vw; }
+
+/* ============================================
+   NAV
+   ============================================ */
+.nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--white);
+    padding: 1.25rem 5vw;
+    border-bottom: 1px solid var(--black);
+}
+.nav-title {
+    font-family: 'Ms Madi', cursive;
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    line-height: 1;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+}
+.nav a.nav-contact {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    text-decoration: none;
+    border: 1px solid var(--black);
+    padding: 0.5rem 1rem;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+.nav a.nav-contact:hover { background: var(--black); color: var(--white); }
+
+/* ============================================
+   HERO
+   ============================================ */
+.hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 8rem 0 4rem;
+    border-bottom: 1px solid var(--black);
+}
+.hero-eyebrow {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    color: var(--gray);
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;
+}
+.hero-eyebrow .font-name {
+    color: var(--black);
+    transition: opacity 0.35s ease;
+}
+.hero-eyebrow .font-name.is-swapping { opacity: 0; }
+
+/* ============================================
+   FLIP CARD (hero)
+   Two faces, X-axis rotation, black stroke.
+   ============================================ */
+.hero-card-wrap {
+    perspective: 1800px;
+    display: inline-block;
+    position: relative;
+    margin-bottom: 2.5rem;
+    width: 100%;
+    max-width: 400px;
+}
+.hero-card {
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.85s cubic-bezier(0.7, 0, 0.3, 1);
+    cursor: pointer;
+    min-height: clamp(240px, 22vw, 320px);
+}
+.hero-card.flipped { transform: rotateX(180deg); }
+
+.hero-card-face {
+    position: relative;                /* anchor for the absolutely-positioned description */
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border: 2px solid var(--black);
+    padding: 1.5rem 1.75rem 1.75rem;
+    background: var(--white);
+    box-sizing: border-box;
+    min-height: inherit;
+}
+.hero-card-back {
+    position: absolute;
+    inset: 0;
+    transform: rotateX(180deg);
+}
+
+/* Card-internal type stack — `.line-upper` and `.line-lower` are placeholders;
+   the pair array drives all face/size/spacing. */
+.hero-card .hero-name {
+    line-height: 1;
+    margin-bottom: 0;
+}
+.hero-card .line {
+    display: block;
+}
+.hero-card .line-upper,
+.hero-card .line-lower {
+    /* Default placeholder sizing — each card's `cards[]` entry overrides this inline */
+    font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+    min-height: 0.95em;
+}
+.hero-card .line-upper { margin-bottom: -0.05em; }
+/* Description is pinned at a fixed Y on the card, independent of upper/lower height.
+   `top: 55%` puts it just below the geometric middle; tweak to taste.
+   `margin: 0 !important` neutralizes any per-card `marginTop` set in the data. */
+.hero-card .line-description {
+    position: absolute;
+    top: 55%;
+    left: 1.75rem;
+    right: 1.75rem;
+    margin: 0 !important;
+    font-size: clamp(0.85rem, 1.25vw, 1rem);
+    line-height: 1.4;
+    color: var(--gray);
+}
+
+/* Hint that the card is interactive — sits in the bottom-right of the front face,
+   pulses gently to draw the eye. Hidden on the back to avoid double labelling. */
+.card-hint {
+    position: absolute;
+    bottom: 1rem; right: 1.25rem;
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    color: var(--gray);
+    pointer-events: none;
+    animation: hintPulse 2.4s ease-in-out infinite;
+}
+.card-hint .icon {
+    font-size: 0.9rem;
+    line-height: 1;
+    transform: translateY(-1px);
+    display: inline-block;
+    animation: hintFlip 2.4s ease-in-out infinite;
+}
+@keyframes hintPulse {
+    0%, 100% { opacity: 0.5; }
+    50%      { opacity: 1;   }
+}
+@keyframes hintFlip {
+    0%, 100% { transform: translateY(-1px) rotateX(0); }
+    50%      { transform: translateY(-1px) rotateX(180deg); }
+}
+.hero-card:hover .card-hint { color: var(--black); }
+.hero-bio {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--gray);
+    max-width: 720px;
+    margin-bottom: 3rem;
+}
+.hero-jump {
+    display: flex; gap: 2rem; flex-wrap: wrap;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-weight: 500;
+}
+.hero-jump a {
+    text-decoration: none;
+    padding: 0.45rem 0.75rem;
+    border-bottom: 1px solid var(--black);
+    transition: background 0.3s ease, color 0.3s ease;
+}
+.hero-jump a:hover {
+    background: var(--black);
+    color: var(--white);
+}
+
+/* ============================================
+   SECTION
+   ============================================ */
+.section {
+    padding: 8rem 0;
+    border-bottom: 1px solid var(--black);
+}
+.section-eyebrow {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--gray);
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.section-eyebrow .num {
+    font-family: 'Work Sans', sans-serif;
+    color: var(--black);
+}
+.section-eyebrow .divider {
+    flex: 0 0 3rem;
+    height: 1px;
+    background: var(--black);
+}
+
+/* ============================================
+   FEATURED: DR COLLEEN
+   ============================================ */
+.featured-hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;              /* top-align: media and text both start at the top of the row */
+}
+.featured-media {
+    position: relative;
+    background: var(--light-gray);
+    overflow: hidden;
+    border: 1px solid var(--gray);
+    min-height: 0;
+    aspect-ratio: 1/1;               /* square — matches a 1080×1080 (or similar) source video */
+    width: 100%;
+}
+/* Wrapper for media + caption credit — sits in the left grid column */
+.featured-media-col {
+    max-width: 512px;                /* sized so the square video's bottom lands on the CTA's second-row bottom */
+    justify-self: start;             /* left-align in its grid column */
+}
+/* Credit line below the video — body-style copy, slightly smaller than the main paragraphs */
+.featured-credit {
+    font-size: 12px;
+    line-height: 1.7;
+    color: var(--gray);
+    margin-top: 1rem;
+}
+
+/* Carousel */
+.carousel-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.55s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.carousel-slide {
+    flex: 0 0 100%;
+    min-width: 100%;
+    height: 100%;
+    background: var(--light-gray);
+}
+.carousel-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+/* Single placeholder video for the Dr. Colleen / Your Upgrade feature */
+.featured-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.carousel-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 2.5rem; height: 2.5rem;
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid var(--black);
+    color: var(--black);
+    cursor: pointer;
+    font-size: 1.5rem;
+    line-height: 1;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.3s ease, color 0.3s ease;
+    z-index: 2;
+}
+.carousel-arrow:hover { background: var(--black); color: var(--white); }
+.carousel-prev { left: 1rem; }
+.carousel-next { right: 1rem; }
+.carousel-dots {
+    position: absolute;
+    bottom: 1rem; left: 50%;
+    transform: translateX(-50%);
+    display: flex; gap: 0.5rem;
+    z-index: 2;
+}
+.carousel-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    padding: 0;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+.carousel-dot.is-active { background: var(--white); }
+
+/* Featured intro: mirrors the .motion-intro pattern in sections 02/03
+   — h3 title on the left, tags on the right. */
+.featured-intro {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: end;          /* tags' bottom row sits flush with the title's "by Dr. Colleen" baseline */
+    margin-bottom: 3rem;
+}
+.featured-title {
+    font-family: 'Abril Fatface', serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin-bottom: 0;
+}
+.featured-title .featured-subtitle {
+    font-size: clamp(1.5rem, 3vw, 2.5rem);   /* h3 scale */
+    display: inline-block;
+}
+.featured-intro .featured-tags {
+    display: flex; flex-wrap: wrap; gap: 0.5rem;
+    justify-content: flex-start;
+}
+/* Zero-size flex item that takes a full row — forces the next siblings to wrap to a new line */
+.featured-intro .featured-tags .tags-break {
+    flex-basis: 100%;
+    height: 0;
+    margin: 0;
+}
+.tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    padding: 0.4rem 0.9rem;
+    border: 1px solid var(--black);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+.featured-text {
+    margin-top: -10px;             /* optical lift — visually align first line with the top of the video */
+}
+.featured-text p {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--gray);
+    margin-bottom: 1.25rem;
+    max-width: 540px;
+}
+.featured-cta {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    margin-top: 30px;
+}
+.btn {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-family: inherit;                                      /* normalize <button> UA font */
+    font-size: 0.75rem;
+    line-height: 1;                                             /* normalize <a> body line-height (1.8) vs <button> normal */
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-weight: 500;
+    text-decoration: none;
+    padding: 0.85rem 1.5rem;
+    transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    border: 1px solid var(--black);
+    cursor: pointer;                                            /* match button default on the <a> variants */
+}
+.btn--primary { background: var(--black); color: var(--white); }
+.btn--primary:hover { background: var(--white); color: var(--black); }
+.btn--ghost { background: var(--white); color: var(--black); }
+.btn--ghost:hover { background: var(--black); color: var(--white); }
+
+/* ============================================
+   CASE STUDY (PHENOMX)
+   ============================================ */
+.case {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+}
+.case:nth-child(odd) .case-text { order: 2; }
+.case-media {
+    aspect-ratio: 4/3;
+    background: var(--light-gray);
+    border: 1px solid var(--gray);
+    background-image: url('https://daianayurzola.com/img/placeholder.png');
+    background-position: center; background-size: cover;
+}
+.case-text h3 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    margin-bottom: 1.5rem;
+}
+.case-text p {
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--gray);
+    margin-bottom: 1.5rem;
+    max-width: 540px;
+}
+
+/* ============================================
+   MOTION GRID
+   ============================================ */
+.motion-intro {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: end;
+    margin-bottom: 3rem;
+}
+.motion-intro h3 {
+    font-size: clamp(2rem, 4vw, 3rem);
+}
+.motion-intro p {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--gray);
+    max-width: 540px;
+}
+.motion-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+.motion-grid[hidden] { display: none; }   /* class selector overrides UA `[hidden]`; restore it */
+/* Densify and Woven Series have extra padding baked into the source cover —
+   zoom the image so the subject fills more of the tile frame. */
+#motionGrid > .motion-tile:nth-child(1) .motion-thumb img,
+#motionGrid > .motion-tile:nth-child(2) .motion-thumb img {
+    transform: scale(1.18);
+    transform-origin: center;
+}
+.motion-tile {
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.3s ease;
+}
+.motion-tile:hover { transform: translateY(-4px); }
+.motion-thumb {
+    aspect-ratio: 16/10;
+    background: var(--light-gray);
+    border: 1px solid var(--gray);
+    background-image: url('https://daianayurzola.com/img/placeholder.png');
+    background-position: center; background-size: cover;
+    margin-bottom: 0.75rem;
+    position: relative;
+}
+.motion-thumb::after {
+    content: '▶';
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(255,255,255,0.85);
+    font-size: 2.5rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    background: rgba(0,0,0,0.4);
+}
+.motion-tile:hover .motion-thumb::after { opacity: 1; }
+.motion-tile .client {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--gray);
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+.motion-tile .title {
+    font-size: 15px;
+    font-weight: 500;
+}
+.motion-link {
+    text-align: center;
+}
+.motion-link a {
+    display: inline-block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    text-decoration: none;
+    border-bottom: 1px solid var(--black);
+    padding-bottom: 0.25rem;
+    transition: opacity 0.3s ease;
+}
+.motion-link a:hover { opacity: 0.5; }
+
+/* ============================================
+   ABOUT
+   ============================================ */
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+}
+.about-text p {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--gray);
+    margin-bottom: 1.25rem;
+    max-width: 540px;
+}
+.about-text p:last-child { color: var(--black); }
+.about-list h4 {
+    font-family: 'Work Sans', sans-serif;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    margin-bottom: 1rem;
+    margin-top: 2.5rem;
+    font-weight: 500;
+}
+.about-list h4:first-child { margin-top: 0; }
+.about-list ul { list-style: none; }
+.about-list li {
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--gray);
+    padding-left: 1.5rem;
+    position: relative;
+}
+.about-list li::before {
+    content: '·';
+    position: absolute; left: 0.5rem;
+    font-weight: 700; color: var(--black);
+}
+
+/* ============================================
+   CONTACT / FOOTER
+   ============================================ */
+.contact {
+    padding: 6rem 0 4rem;
+    border-bottom: 1px solid var(--black);
+}
+.contact-cta {
+    font-family: 'Abril Fatface', serif;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin-bottom: 1.5rem;
+}
+.contact-cta a {
+    text-decoration: none;
+    border-bottom: 2px solid var(--black);
+    transition: opacity 0.3s ease;
+}
+.contact-cta a:hover { opacity: 0.5; }
+.contact-sub {
+    font-size: 16px;
+    color: var(--gray);
+    max-width: 540px;
+    margin-bottom: 3rem;
+}
+.contact-links {
+    display: flex; gap: 2rem; flex-wrap: wrap;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-weight: 500;
+}
+.contact-links a {
+    text-decoration: none;
+    border-bottom: 1px solid var(--black);
+    padding-bottom: 0.25rem;
+    transition: opacity 0.3s ease;
+}
+.contact-links a:hover { opacity: 0.5; }
+
+footer {
+    padding: 2.5rem 0;
+    text-align: center;
+}
+footer p {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--gray);
+    font-weight: 500;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 1024px) {
+    .featured-hero, .case, .motion-intro, .featured-intro, .about-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+    .case:nth-child(odd) .case-text { order: initial; }
+    .motion-grid { grid-template-columns: repeat(2, 1fr); }
+    .featured-media { aspect-ratio: 9/12; max-height: 560px; min-height: 400px; }
+    /* On stacked layouts the tags shouldn't right-align — match the title's left edge */
+    .featured-intro .featured-tags { justify-content: flex-start; }
+}
+@media (max-width: 768px) {
+    .nav { padding: 0.85rem 4vw; gap: 0.75rem; }
+    .nav-title { font-size: 1.35rem; }
+    .nav a.nav-contact { font-size: 0.6rem; padding: 0.35rem 0.65rem; letter-spacing: 0.1em; }
+    .hero { padding: 6rem 0 3rem; }
+    .section { padding: 5rem 0; }
+    .motion-grid { grid-template-columns: 1fr; gap: 1.25rem; }
+    .featured-media { aspect-ratio: 9/12; }
+    .hero-jump { flex-direction: column; gap: 0.75rem; }
+    .featured-cta { flex-direction: column; align-items: stretch; }
+    .featured-cta .btn { justify-content: center; }
+}
+/* ============================================
+   INTERACTION & EXPERIENCE GRID  (Section 02)
+   ============================================ */
+.ix-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+.ix-tile {
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    padding: 0;
+    text-align: left;
+    color: inherit;
+    font: inherit;
+    transition: transform 0.3s ease;
+}
+.ix-tile:hover { transform: translateY(-4px); }
+.ix-tile .ix-thumb {
+    position: relative;
+    aspect-ratio: 4/3;
+    background: var(--light-gray);
+    border: 1px solid var(--gray);
+    overflow: hidden;
+    margin-bottom: 0.75rem;
+}
+.ix-tile .ix-thumb img,
+.ix-tile .ix-thumb video {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+}
+/* Lottie cover (iframe) — fills the thumb, lets clicks pass through to the tile button */
+.ix-tile .ix-thumb iframe.ix-thumb-lottie {
+    width: 100%; height: 100%;
+    border: 0;
+    display: block;
+    background: var(--white);
+    pointer-events: none;
+}
+/* Lottie JSON cover (lottiefiles web component) — same constraints; the player draws its own canvas */
+.ix-tile .ix-thumb lottie-player.ix-thumb-lottie-json {
+    width: 100%; height: 100%;
+    display: block;
+    pointer-events: none;
+}
+/* Rive Buttons cover — white surround, Lottie scaled to 75% and centered */
+.ix-tile[data-ix="rive-buttons"] .ix-thumb {
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.ix-tile[data-ix="rive-buttons"] .ix-thumb lottie-player.ix-thumb-lottie-json {
+    width: 64%;
+    height: 64%;
+}
+/* Forma video is 16:9 cropped to fit; anchor to the left edge so the side UI stays in frame */
+.ix-tile[data-ix="forma-teaser"] .ix-thumb video {
+    object-position: left center;
+}
+.ix-tile .ix-cat {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--gray);
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+.ix-tile .ix-title {
+    font-family: 'Abril Fatface', serif;
+    font-size: 1.25rem;
+    line-height: 1.1;
+    color: var(--black);
+    margin-bottom: 0.25rem;
+}
+.ix-tile .ix-sub {
+    font-size: 14px;
+    line-height: 1.4;
+    color: var(--gray);
+}
+
+/* Expanded Lottie & Rive sub-grid (inline 2×2) */
+.ix-sub-wrap {
+    grid-column: 1 / -1;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 0.5s ease, opacity 0.4s ease, margin 0.3s ease;
+}
+.ix-sub-wrap.is-open {
+    max-height: 1400px;
+    opacity: 1;
+    margin: 0.5rem 0 1rem;
+}
+.ix-sub-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+    padding: 1.5rem;
+    border: 1px solid var(--black);
+}
+.ix-sub-grid .ix-tile .ix-thumb { aspect-ratio: 4/3; }
+.ix-sub-grid .ix-tile .ix-title { font-size: 1.05rem; }
+
+/* ============================================
+   MOTION GRID  (Section 03 — covers from material/cover/)
+   ============================================ */
+.motion-tile {
+    background: transparent;
+    border: none;
+    padding: 0;
+    text-align: left;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+.motion-tile:hover { transform: translateY(-4px); }
+.motion-tile .motion-thumb {
+    position: relative;
+    aspect-ratio: 16/10;
+    background: var(--light-gray);
+    border: 1px solid var(--gray);
+    overflow: hidden;
+    margin-bottom: 0.75rem;
+    background-image: none;            /* override the placeholder global rule */
+}
+.motion-tile .motion-thumb img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.motion-tile .motion-thumb::after {
+    content: '▶';
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(255,255,255,0.85);
+    font-size: 2.5rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    background: rgba(0,0,0,0.4);
+}
+.motion-tile:hover .motion-thumb::after { opacity: 1; }
+.motion-tile .client {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--gray);
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+.motion-tile .title {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--black);
+}
+
+/* Toggle for "See all projects" */
+.motion-toggle {
+    background: var(--white);
+    border: 1px solid var(--black);
+    cursor: pointer;
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 500;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    padding: 0.85rem 1.5rem;
+    color: var(--black);
+    transition: background 0.3s ease, color 0.3s ease;
+}
+.motion-toggle:hover { background: var(--black); color: var(--white); }
+/* Smooth expand/collapse for "See all projects".
+   Wrapper animates max-height (JS sets it to the natural scrollHeight when opening). */
+.motion-extra-wrap {
+    overflow: hidden;
+    max-height: 0;
+    margin-top: 0;
+    opacity: 0;
+    transition: max-height 0.65s cubic-bezier(0.65, 0, 0.35, 1),
+                margin-top 0.5s ease,
+                opacity    0.45s ease;
+}
+.motion-extra-wrap.is-open {
+    margin-top: 1.5rem;
+    opacity: 1;
+    /* max-height set inline by JS to the measured scrollHeight */
+}
+
+/* ============================================
+   LIGHTBOX  (shared by IX + Motion)
+   ============================================ */
+.lightbox {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.92);
+    z-index: 3000;
+    display: flex; flex-direction: column;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+.lightbox.is-open {
+    opacity: 1;
+    pointer-events: auto;
+}
+.lightbox-bar {
+    flex: 0 0 auto;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.25rem 5vw;
+    background: var(--white);
+    border-bottom: 1px solid var(--black);
+}
+.lightbox-title {
+    font-family: 'Abril Fatface', serif;
+    font-size: clamp(1.25rem, 2.5vw, 2rem);
+    line-height: 1.1;
+    color: var(--black);
+}
+.lightbox-actions { display: flex; gap: 0.5rem; align-items: center; }
+/* Shared button shape — matches the nav Contact button (40px tall) */
+.lightbox-close,
+.lightbox-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--black);
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 500;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    line-height: 1.8;
+    white-space: nowrap;
+    box-sizing: border-box;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+.lightbox-close { background: none; color: var(--black); }
+.lightbox-close:hover { background: var(--black); color: var(--white); }
+.lightbox-link { background: var(--black); color: var(--white); }
+.lightbox-link:hover { background: var(--white); color: var(--black); }
+.lightbox-link[hidden] { display: none; }    /* `display: inline-flex` above otherwise wins over UA `[hidden]` */
+.lightbox-body {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    padding: 3rem 5vw 6rem;
+    color: var(--white);
+}
+.lightbox-body .lb-section { margin-bottom: 3rem; }
+.lightbox-body .lb-section h4 {
+    font-family: 'Work Sans', sans-serif;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    margin-bottom: 1rem;
+    color: rgba(255,255,255,0.6);
+    font-weight: 500;
+}
+.lightbox-body .lb-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.lightbox-body .lb-item {
+    width: 100%;
+    background: #1a1a1a;
+    overflow: hidden;
+}
+.lightbox-body .lb-item img,
+.lightbox-body .lb-item video {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+.lightbox-body .lb-item iframe {
+    width: 100%;
+    border: none;
+    display: block;
+    background: #1a1a1a;
+}
+.lightbox-body .lb-item iframe.lb-youtube,
+.lightbox-body .lb-item iframe.lb-lottie {
+    aspect-ratio: 16/9;
+}
+.lightbox-body .lb-item iframe.lb-rive {
+    aspect-ratio: 1/1;
+    max-width: 500px;
+    margin: 0 auto;
+}
+.lightbox-body .lb-item { position: relative; }
+.lightbox-body .lb-item .lb-tag {
+    position: absolute;
+    top: 0.75rem; left: 0.75rem;
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Work Sans', sans-serif;
+    font-size: 0.6rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    padding: 0.3rem 0.7rem;
+    z-index: 2;
+}
+/* Proximity Lab Lottie — 60% width, centered, with a light-gray surround */
+.lightbox-body .lb-item:has(iframe[src*="b09f570e-7c5b-4318-aa67-62acf6182e87"]) {
+    background: #ebebeb;
+    padding: 2rem 0;
+}
+.lightbox-body .lb-item iframe[src*="b09f570e-7c5b-4318-aa67-62acf6182e87"] {
+    width: 60%;
+    margin: 0 auto;
+    background: #ebebeb;
+}
+/* Hardware Animation in Lottie — show top half only (animation lives in upper portion) */
+.lightbox-body .lb-item:has(iframe[src*="9f75d1c6-fbdf-45c5-ae60-106bb437bafc"]) {
+    aspect-ratio: 32/9;
+    overflow: hidden;
+}
+.lightbox-body .lb-item iframe[src*="9f75d1c6-fbdf-45c5-ae60-106bb437bafc"] {
+    aspect-ratio: 16/9;
+}
+/* Micro Animation in Figma Lottie — 75% width, centered, white surround */
+.lightbox-body .lb-item:has(iframe[src*="89f67347-fc41-440f-ab86-c3aa4567a84d"]) {
+    background: #ffffff;
+    padding: 2rem 0;
+}
+.lightbox-body .lb-item iframe[src*="89f67347-fc41-440f-ab86-c3aa4567a84d"] {
+    width: 75%;
+    margin: 0 auto;
+    background: #ffffff;
+}
+/* App Login Character — 3 Lottie animations side-by-side with white surround */
+.lightbox-body .lb-grid:has(iframe[src*="c2cb0b2d-5a4e-4c8c-8161-296482f2bacd"]) {
+    grid-template-columns: repeat(3, 1fr);
+}
+.lightbox-body .lb-item:has(iframe[src*="c2cb0b2d-5a4e-4c8c-8161-296482f2bacd"]),
+.lightbox-body .lb-item:has(iframe[src*="f3ec7b31-a108-4b55-933d-2e0bbef4cbad"]),
+.lightbox-body .lb-item:has(iframe[src*="81621892-9b06-4b2c-8c1d-2e1df9605e74"]) {
+    background: #ffffff;
+}
+.lightbox-body .lb-item iframe[src*="c2cb0b2d-5a4e-4c8c-8161-296482f2bacd"],
+.lightbox-body .lb-item iframe[src*="f3ec7b31-a108-4b55-933d-2e0bbef4cbad"],
+.lightbox-body .lb-item iframe[src*="81621892-9b06-4b2c-8c1d-2e1df9605e74"] {
+    background: #ffffff;
+}
+/* App Login Character — apu poster spans the full width of the 3-col grid */
+.lightbox-body .lb-grid:has(iframe[src*="c2cb0b2d-5a4e-4c8c-8161-296482f2bacd"]) .lb-item:has(img[src*="micro_animation_apu"]) {
+    grid-column: 1 / -1;
+}
+/* Rive Buttons — 2×2 grid of buttons on #313131, plus a full-width chatbot row on white */
+.lightbox-body .lb-grid:has(iframe[src*="1bfvJpuOoEWBs-1BrjKR3g"]) {
+    grid-template-columns: repeat(2, 1fr);
+}
+.lightbox-body .lb-grid:has(iframe[src*="1bfvJpuOoEWBs-1BrjKR3g"]) .lb-item {
+    background: #313131;
+    padding: 1.5rem 0;
+}
+.lightbox-body .lb-grid:has(iframe[src*="1bfvJpuOoEWBs-1BrjKR3g"]) .lb-item iframe.lb-rive {
+    max-width: 100%;   /* override the default 500px cap so each Rive fills its column */
+    background: transparent;
+}
+/* 3rd row: portfolio chatbot embed — full grid width, white surround, wider aspect */
+.lightbox-body .lb-grid:has(iframe[src*="1bfvJpuOoEWBs-1BrjKR3g"]) .lb-item:has(iframe[src*="svVPzuBH_kOUp0W_P55Glg"]) {
+    grid-column: 1 / -1;
+    background: #ffffff;
+    padding: 0;
+}
+.lightbox-body .lb-grid:has(iframe[src*="1bfvJpuOoEWBs-1BrjKR3g"]) .lb-item iframe[src*="svVPzuBH_kOUp0W_P55Glg"] {
+    aspect-ratio: 16/9;
+    background: #ffffff;
+    width: 75%;
+    margin: 0 auto;
+    display: block;
+}
+/* 4th row: chatbot poster image — also spans full grid width */
+.lightbox-body .lb-grid:has(iframe[src*="1bfvJpuOoEWBs-1BrjKR3g"]) .lb-item:has(img[src*="chatbot_rive_01"]) {
+    grid-column: 1 / -1;
+    background: transparent;
+    padding: 0;
+}
+
+/* ============================================
+   RESPONSIVE — Section 02 / 03 / Lightbox
+   ============================================ */
+@media (max-width: 1024px) {
+    .ix-grid { grid-template-columns: repeat(2, 1fr); }
+    .ix-sub-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+    .ix-grid { grid-template-columns: 1fr; }
+    .lightbox-bar { padding: 1rem 5vw; }
+    .lightbox-body { padding: 2rem 5vw 4rem; }
+    .lightbox-body .lb-grid:has(iframe[src*="c2cb0b2d-5a4e-4c8c-8161-296482f2bacd"]),
+    .lightbox-body .lb-grid:has(iframe[src*="1bfvJpuOoEWBs-1BrjKR3g"]) {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
 </head>
 <body>
-    <!-- Navigation Menu -->
-    <nav class="nav-menu">
-        <div class="nav-title">Daiana Yurzola</div>
-        <div class="nav-items">
-            <div class="nav-item" data-section="interaction">
-                <div class="nav-number">01</div>
-                <div class="nav-label">Interaction & Experience Design</div>
-            </div>
-            <div class="nav-item" data-section="motion">
-                <div class="nav-number">02</div>
-                <div class="nav-label">Motion Design & Art Direction</div>
-            </div>
-            <div class="nav-item" data-section="about">
-                <div class="nav-number">03</div>
-                <div class="nav-label">About</div>
-            </div>
-        </div>
-        <div class="hamburger">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-    </nav>
 
-    <!-- Mobile Menu Overlay -->
-    <div class="mobile-menu-overlay">
-        <div class="mobile-menu-items">
-            <div class="mobile-nav-item" data-section="interaction">
-                <div class="mobile-nav-number">01</div>
-                <div class="mobile-nav-label">Interaction & Experience Design</div>
+<!-- Nav -->
+<nav class="nav">
+    <a href="#top" class="nav-title">Daiana Yurzola</a>
+    <a href="#contact" class="nav-contact">Contact</a>
+</nav>
+
+<!-- Hero -->
+<section class="hero" id="top">
+    <div class="container">
+        <div class="hero-eyebrow">
+            <span>Portfolio</span>
+            <span style="color: var(--gray);">·</span>
+            <span>Set in <span class="font-name" id="fontName">Ms Madi</span></span>
+        </div>
+        <div class="hero-card-wrap">
+            <div class="hero-card" id="heroCard" role="button" tabindex="0" aria-label="Flip card">
+                <div class="hero-card-face hero-card-front" id="cardFront">
+                    <h2 class="hero-name">
+                        <span class="line line-upper"></span>
+                        <span class="line line-lower"></span>
+                    </h2>
+                    <p class="line-description"></p>
+                    <div class="card-hint">
+                        <span class="icon">↻</span>
+                        <span>Tap to flip</span>
+                    </div>
+                </div>
+                <div class="hero-card-face hero-card-back" id="cardBack">
+                    <h2 class="hero-name">
+                        <span class="line line-upper"></span>
+                        <span class="line line-lower"></span>
+                    </h2>
+                    <p class="line-description"></p>
+                    <div class="card-hint">
+                        <span class="icon">↻</span>
+                        <span>Tap to flip</span>
+                    </div>
+                </div>
             </div>
-            <div class="mobile-nav-item" data-section="motion">
-                <div class="mobile-nav-number">02</div>
-                <div class="mobile-nav-label">Motion Design & Art Direction</div>
+        </div>
+        <p class="hero-bio">
+            Cross-disciplinary designer with 10+ years across visual, motion, and interaction design, as well as creative direction. I turn complexity into clear, engaging solutions through visual craft, motion, systems thinking, and a strong understanding of user needs. Currently building and shipping AI-powered conversational experiences using Claude.
+        </p>
+        <div class="hero-jump">
+            <a href="#dr-colleen">01 Product</a>
+            <a href="#interaction">02 Interaction</a>
+            <a href="#motion">03 Motion</a>
+            <a href="#about">04 About</a>
+        </div>
+    </div>
+</section>
+
+<!-- Featured: Dr. Colleen + Women's Health Case Study -->
+<section class="section" id="dr-colleen">
+    <div class="container">
+        <div class="section-eyebrow">
+            <span class="num">01 / Product Design</span>
+            <span class="divider"></span>
+            <span>Designing Digital Products for Women's health</span>
+        </div>
+        <div class="featured-intro">
+            <h3 class="featured-title">Your Upgrade <br/> <span class="featured-subtitle">by Dr. Colleen</span></h3>
+            <div class="featured-tags">
+                <span class="tag">UX Research</span>
+                <span class="tag">UI Design</span>
+                <span class="tag">Design System</span>
+                <!-- Flex line break — forces React + Claude + Conversational AI onto a second row -->
+                <span class="tags-break" aria-hidden="true"></span>
+                <span class="tag">React</span>
+                <span class="tag">Claude</span>
+                <span class="tag">Conversational AI</span>
             </div>
-            <div class="mobile-nav-item" data-section="about">
-                <div class="mobile-nav-number">03</div>
-                <div class="mobile-nav-label">About</div>
+        </div>
+        <div class="featured-hero">
+            <div class="featured-media-col">
+                <div class="featured-media" id="featuredMedia">
+                    <!-- Placeholder video. Swap `src` with the real Your Upgrade teaser (mp4) when ready.
+                         `poster` shows on first paint and while the video buffers. -->
+                    <video class="featured-video"
+                           src="https://daianayurzola.com/dr-colleen-app/files/app_demo.mp4"
+                           poster="img/placeholder.png"
+                           autoplay loop muted playsinline></video>
+                </div>
+                <p class="featured-credit">Designed end-to-end in collaboration with <strong style="color: var(--black); font-weight: 500;">Colleen Fogarty Draper, PhD, RD</strong>.</p>
+            </div>
+            <div class="featured-text-col">
+                <div class="featured-text">
+                    <p>
+                        A mobile experience featuring an AI-powered conversational assistant for women navigating perimenopause and menopause, a major life transition that remains understudied, stigmatized, and poorly supported by existing digital tools.
+                    </p>
+                    <p>
+                        This project spans the full product journey. The <strong style="color: var(--black); font-weight: 500;">case study</strong> explores the user research, journey mapping, and onboarding design behind the experience, while the <strong style="color: var(--black); font-weight: 500;">live app</strong>, prototyped and developed using Anthropic’s Claude, translates those insights into personalized nutrition and lifestyle guidance through a hybrid AI–human system.
+                    </p>
+                    <p>
+                        Built around trust, the AI Assistant serves as a transparent intermediary, delivering evidence-based recommendations across 20+ menopause-related symptoms while adapting its tone and support to each user’s needs and emotional state.
+                    </p>
+                </div>
+                <div class="featured-cta">
+                    <a class="btn btn--ghost" href="https://daianayurzola.com/phenomx-health-redesign/case-study/" target="_blank" rel="noopener">Case study →</a>
+                    <!-- Hidden for now — uncomment to bring back once the trailer is ready
+                    <button class="btn btn--ghost" id="watchTrailerBtn" type="button">Watch the trailer →</button>
+                    -->
+                    <a class="btn btn--primary" href="https://daianayurzola.com/dr-colleen-app/demo/?demo=quick" target="_blank" rel="noopener">Try the demo →</a>
+                    <button class="btn btn--ghost" id="personalizationBtn" type="button">Personalization Engine →</button>
+                </div>
             </div>
         </div>
     </div>
+</section>
 
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="container">
-            <div class="hero-content">
-                <!-- Hero Slider -->
-                <div class="hero-slider">
-                    <!-- Instance 1 -->
-                    <div class="slider-instance active" data-instance="1">
-                        <div class="instance-layout">
-                            <div class="line-1 script larger">Creative</div>
-                            <div class="line-2 serif">Vision</div>
-                            <div class="description-container">
-                                <div class="description-box">
-                                    <p>Translating complex ideas into compelling visual stories.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<!-- Interaction & Experience Design -->
+<section class="section" id="interaction">
+    <div class="container">
+        <div class="section-eyebrow">
+            <span class="num">02 / Interaction Design</span>
+            <span class="divider"></span>
+            <span>Web, animation &amp; physical</span>
+        </div>
+        <div class="motion-intro">
+            <h3>Designing how people interact with things.</h3>
+            <p>
+                Selected work across web, physical computing, generative art, and micro-animation. Tap any card to step inside.
+            </p>
+        </div>
+        <div class="ix-grid" id="ixGrid"><!-- populated by JS --></div>
+    </div>
+</section>
 
-                    <!-- Instance 2 -->
-                    <div class="slider-instance" data-instance="2">
-                        <div class="instance-layout">
-                            <div class="line-1 serif">Technical</div>
-                            <div class="line-2 sans-italic">Expertise</div>
-                            <div class="description-container">
-                                <div class="description-box">
-                                    <p>Advanced digital skills across visual, motion, and interactive design.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<!-- Motion Design -->
+<section class="section" id="motion">
+    <div class="container">
+        <div class="section-eyebrow">
+            <span class="num">03 / Motion design</span>
+            <span class="divider"></span>
+            <span>10+ years · 30+ projects</span>
+        </div>
+        <div class="motion-intro">
+            <h3>Bringing complex stories to life.</h3>
+            <p>
+                Explainer videos &amp; product demos for high-tech and SaaS clients, transforming dense technical concepts into clear, engaging narratives.
+            </p>
+        </div>
+        <div class="motion-grid" id="motionGrid"><!-- populated by JS --></div>
+        <div class="motion-extra-wrap" id="motionExtraWrap">
+            <div class="motion-grid motion-grid--extra" id="motionGridExtra"><!-- expanded items inserted here on click --></div>
+        </div>
+        <div class="motion-link">
+            <button class="motion-toggle" id="motionToggle" type="button" aria-expanded="false">See all projects ↓</button>
+        </div>
+    </div>
+</section>
 
-                    <!-- Instance 3 -->
-                    <div class="slider-instance" data-instance="3">
-                        <div class="instance-layout">
-                            <div class="line-1 serif">Strategic</div>
-                            <div class="line-2 sans-italic">Thinking</div>
-                            <div class="description-container">
-                                <div class="description-box">
-                                    <p>Brand-aligned solutions that enhance user experiences.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Instance 4 -->
-                    <div class="slider-instance" data-instance="4">
-                        <div class="instance-layout">
-                            <div class="line-1 script smaller">Organizational</div>
-                            <div class="line-2 serif">Skills</div>
-                            <div class="description-container">
-                                <div class="description-box">
-                                    <p>Optimizing workflows and delivering high-quality results.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<!-- About -->
+<section class="section" id="about">
+    <div class="container">
+        <div class="section-eyebrow">
+            <span class="num">04 / About</span>
+            <span class="divider"></span>
+        </div>
+        <div class="about-grid">
+            <div class="about-text">
+                <p>
+                    I'm Daiana Yurzola, a cross-disciplinary designer with over a decade of experience in graphic, visual, and motion design, as well as creative direction.
+                </p>
+                <p>
+                    I bring together creative vision, technical expertise, strategic thinking, a strong understanding of user needs, and a deep love for storytelling.
+                </p>
+                <p>
+                    At the heart of my work is a desire to help people understand, feel, and enjoy the experiences they interact with, whether through motion, interactivity, visual narratives, or conversational AI.
+                </p>
+                <p>
+                    Currently, I'm focused on designing meaningful, intuitive experiences and exploring the intersection of motion, interactivity, and user engagement, including AI-powered conversational interfaces built with Claude.
+                </p>
+            </div>
+            <div class="about-list">
+                <h4>Disciplines</h4>
+                <ul>
+                    <li>Visual & Graphic Design</li>
+                    <li>Motion Design & Art Direction</li>
+                    <li>Interaction & Experience Design</li>
+                    <li>Creative Direction</li>
+                </ul>
+                <h4>Tools</h4>
+                <ul>
+                    <li>Adobe, After Effects, 3D tools</li>
+                    <li>Figma, Rive, Lottie</li>
+                    <li>HTML / CSS / JavaScript / React</li>
+                    <li>AI tools, Claude, prompt engineering</li>
+                </ul>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    
+<!-- Contact -->
+<section class="contact" id="contact">
+    <div class="container">
+        <div class="hero-eyebrow">05 / Let's talk</div>
+        <h2 class="contact-cta">
+            Say hello —<br>
+            <a href="mailto:daianayurzola@gmail.com">daianayurzola@gmail.com</a>
+        </h2>
+        <p class="contact-sub">
+            Open to projects where design, motion, interaction, and AI meet. Currently based in the Bay Area.
+        </p>
+        <div class="contact-links">
+            <a href="https://www.linkedin.com/in/daianayurzola/" target="_blank" rel="noopener">LinkedIn ↗</a>
+            <a href="https://www.behance.net/daianayurzola" target="_blank" rel="noopener">Behance ↗</a>
+            <a href="https://daianayurzola.myportfolio.com/" target="_blank" rel="noopener">Adobe Portfolio ↗</a>
+        </div>
+    </div>
+</section>
 
-    <!-- About Section -->
-    <section class="about-section" id="about">
-        <div class="container">
-            <div>
-                <div class="section-header">
-                    <div class="section-number">03</div>
-                    <h2>About</h2>
-                </div>
+<footer>
+    <div class="container">
+        <p>Designed with intention · Daiana Yurzola</p>
+    </div>
+</footer>
 
-                <div class="about-content">
-                    <div class="about-text">
-                        <p>
-                         I’m Daiana Yurzola, a cross-disciplinary designer with over a decade of experience in graphic, visual, and motion design, as well as creative direction. I bring together creative vision, technical expertise, strategic thinking, organizational skills, and a deep love for storytelling. At the heart of my work is a desire to help people understand, feel, and enjoy the experiences they interact with, and motion is how I bring those moments to life.
-                        </p>
-                        <p>
-                            My career has taken me through a range of creative environments, including studios, post-production houses, corporate design teams, and creative agencies. I also spent several years as a freelancer, collaborating with agencies and video production companies to create explainer videos for high-tech clients, transforming complex concepts into clear and engaging visual stories.
-                        </p>
-                        <p>
-                            Based in the Bay Area, I worked as a Motion Graphics Designer creating animation-driven content for both Product and Marketing teams, optimizing production workflows, and mentoring fellow designers. Now, I’m focused on designing meaningful, intuitive experiences and exploring the intersection of motion, interactivity, and user engagement.
-                        </p>
-                        <p>
-                            Curiosity drives my work. I’m constantly experimenting with new tools and techniques, especially those that bring motion into the digital world to enhance how users feel, navigate, and connect with products. As technology evolves, so does the role of motion. I’m driven by exploring what’s next, designing experiences that push boundaries and redefine how people interact with the digital world.
-                        </p>
-                    </div>
+<!-- Project lightbox (Interaction & Motion sections share this) -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="lightbox-bar">
+        <div class="lightbox-title" id="lightboxTitle">Project</div>
+        <div class="lightbox-actions">
+            <a class="lightbox-link" id="lightboxLink" href="#" target="_blank" rel="noopener" hidden>Visit site ↗</a>
+            <button class="lightbox-close" id="lightboxClose" type="button">Close ✕</button>
+        </div>
+    </div>
+    <div class="lightbox-body" id="lightboxBody"></div>
+</div>
 
-                    <div class="about-details">
-                        <h4>Areas of Expertise</h4>
-                        <ul>
-                            <li>Graphic and Visual Design</li>
-                            <li>Motion Design</li>
-                            <li>Animation for apps & web</li>
-                            <li>Creative Direction</li>
-                            <li>Art Direction</li>
-                        </ul>
+<script>
+// =============================================================
+// CARDS — each entry is one capability moment.
+// `upper`, `lower`, `description` are independent type slots; the
+// card defines text + font properties for each. Click the card to
+// flip and reveal the next one.
+//
+// To add a new font: also add it to the Google Fonts <link> in <head>.
+// =============================================================
+const cards = [
+    {
+        id: 'technical-expertise',
+        label: 'Montserrat + Oswald',
+        upper: {
+            text: 'Technical',
+            family:        "'Montserrat', sans-serif",
+            weight:        800,
+            style:         'normal',
+            size:          'clamp(0.5rem, 2.5vw, 1rem)',
+            lineHeight:    0.95,
+            letterSpacing: '0.5em',
+            textTransform: 'uppercase',
+            marginTop:     '0.75rem'
+        },
+        lower: {
+            text: 'Expertise',
+            family:        "'Oswald', sans-serif",
+            weight:        700,
+            style:         'normal',
+            size:          'clamp(2rem, 5vw, 3.75rem)',
+            lineHeight:    0.85,
+            letterSpacing: '0.01em',
+            textTransform: 'uppercase',
+            marginTop: '0.1em'
+        },
+        description: {
+            text: 'Advanced skills across visual, graphics, motion, and interaction design.',
+            family:        "'Work Sans', sans-serif",
+            weight:        300,
+            style:         'normal',
+            size:          'clamp(0.85rem, 1.2vw, 1rem)',
+            lineHeight:    1.6,
+            letterSpacing: '0',
+            textTransform: 'none',
+            marginTop:     '0.5rem'   /* compensates for lower's -0.25em pull */
+        }
+    },
+    {
+        id: 'strategic-thinking',
+        label: 'Alice + Ms Madi',
+        upper: {
+            text: 'Strategic',
+            family:        "'Alice', serif",
+            weight:        400,
+            style:         'normal',
+            size:          'clamp(1.65rem, 3.75vw, 2.5rem)',
+            lineHeight:    1.05,
+            letterSpacing: '-0.01em',
+            textTransform: 'none'
+        },
+        lower: {
+            text: 'Thinking',
+            family:        "'Ms Madi', cursive",
+            weight:        400,
+            style:         'normal',
+            size:          'clamp(2.5rem, 5.75vw, 4.25rem)',
+            lineHeight:    0.85,
+            letterSpacing: '0.01em',
+            textTransform: 'none'
+        },
+        description: {
+            text: 'Design solutions aligned with brand, business, and user needs.',
+            family:        "'Work Sans', sans-serif",
+            weight:        300,
+            style:         'normal',
+            size:          'clamp(0.85rem, 1.2vw, 1rem)',
+            lineHeight:    1.6,
+            letterSpacing: '0',
+            textTransform: 'none',
+            marginTop:     '-0.3rem'     /* REFERENCE — match this visual gap on every card */
+        }
+    },
+    {
+        id: 'organizational-skills',
+        label: 'Yeseva One + Playfair Display',
+        upper: {
+            text: 'Organizational',
+            family:        "'Yeseva One', serif",
+            weight:        400,
+            style:         'normal',
+            size:          'clamp(1.4rem, 3.25vw, 2.25rem)',
+            lineHeight:    1.05,
+            letterSpacing: '-0.01em',
+            textTransform: 'none',
+            marginTop:     '0.5rem'
+        },
+        lower: {
+            text: 'Skills',
+            family:        "'Playfair Display', serif",
+            weight:        800,
+            style:         'italic',
+            size:          'clamp(1.75rem, 4vw, 2.75rem)',
+            lineHeight:    1,
+            letterSpacing: '-0.01em',
+            textTransform: 'none',
+            marginLeft: '0.75em'
 
-                        <h4>Competencies</h4>
-                        <ul>
-                            <li>Experience in SaaS, B2B, and B2C</li>
-                            <li>Expertise in Visual Narrative and Storytelling</li>
-                            <li>Strong understanding of Brand Guidelines and Design Systems</li>
-                            <li>Advanced digital and technical skills</li>
-                            <li>Excellent organizational skills</li>
-                            <li>Exceptional time management abilities</li>
-                            <li>Proficient in project management</li>
-                            <li>Committed to delivering high-quality results</li>
-                        </ul>
+        },
+        description: {
+            text: 'Managing complexity, maintaining quality, and keeping projects on track.',
+            family:        "'Work Sans', sans-serif",
+            weight:        300,
+            style:         'normal',
+            size:          'clamp(0.85rem, 1.2vw, 1rem)',
+            lineHeight:    1.6,
+            letterSpacing: '0',
+            textTransform: 'none',
+            marginTop:     '0.75rem'
+        }
+    },
+    {
+        id: 'creative-vision',
+        label: 'Libre Baskerville + Ms Madi',
+        upper: {
+            text: 'Creative',
+            family:        "'Libre Baskerville', serif",
+            weight:        500,
+            style:         'normal',
+            size:          'clamp(1.5rem, 3.75vw, 2.5rem)',
+            lineHeight:    0.5,
+            letterSpacing: '-0.025em',
+            textTransform: 'none',
+            marginTop:     '0.8rem'
+        },
+        lower: {
+            text: 'Vision',
+             family:        "'Ms Madi', cursive",
+            weight:        400,
+            style:         'normal',
+            size:          'clamp(2.5rem, 5.75vw, 4.25rem)',
+            lineHeight:    0.5,
+            letterSpacing: '0em',
+            textTransform: 'none',
+            marginLeft: '0.2em',
+            marginTop:  '0.1rem'
 
-                        <h4>Skills</h4>
-                        <div class="skills-group">
-                            <div class="skills-category">Graphic Design and Branding</div>
-                            <div>Adobe Photoshop, Illustrator, InDesign, Keynote. Typography, Layouts, and Color Theory</div>
-                        </div>
+        },
+        description: {
+            text: 'Transforming complex ideas into clear, engaging visual stories.',
+            family:        "'Work Sans', sans-serif",
+            weight:        300,
+            style:         'normal',
+            size:          'clamp(0.85rem, 1.2vw, 1rem)',
+            lineHeight:    1.6,
+            letterSpacing: '0',
+            textTransform: 'none',
+            marginTop:     '-0.25rem'   /* compensates for lower lineHeight: 0.5 */
+        }
+    },
+    {
+        id: 'user-understanding',
+        label: 'Ms Madi + Yeseva One',
+        upper: {
+            text: 'User',
+            family:        "'Ms Madi', regular",
+            weight:        500,
+            style:         'normal',
+            size:          'clamp(3rem, 5vw, 4rem)',
+            lineHeight:    1.05,
+            letterSpacing: '-0.01em',
+            textTransform: 'none'
 
-                        <div class="skills-group">
-                            <div class="skills-category">Motion Design & 3D</div>
-                            <div>After Effects, Premiere Pro, Audition, Element 3D, Cinema 4D, Maya, and Unreal Engine knowledge</div>
-                        </div>
+        },
+        lower: {
+            text: 'Understanding',
+            family:        "'Yeseva One', regular",
+            weight:        900,
+            style:         'normal',
+            size:          'clamp(1.5rem, 3.4vw, 2.25rem)',
+            lineHeight:    1,
+            letterSpacing: '-0.02em',
+            textTransform: 'none',
+            marginTop: '-0.3em'
+        },
+        description: {
+            text: 'Turning user needs and behaviors into thoughtful experiences.',
+            family:        "'Work Sans', sans-serif",
+            weight:        300,
+            style:         'normal',
+            size:          'clamp(0.8rem, 1.15vw, 0.95rem)',
+            lineHeight:    1.6,
+            letterSpacing: '0',
+            textTransform: 'none',
+            marginTop:     '0.5rem'   /* compensates for lower's -0.25em pull */
+        }
+    }
+    // ⇡ Add a 6th card here when ready. Same shape per entry.
+];
 
-                        <div class="skills-group">
-                            <div class="skills-category">UI Motion & Animation</div>
-                            <div>Lottie (JSON), Rive, Adobe Animate, JavaScript Libraries knowledge</div>
-                        </div>
+function applyCardToFace(faceEl, card) {
+    const upper = faceEl.querySelector('.line-upper');
+    const lower = faceEl.querySelector('.line-lower');
+    const desc  = faceEl.querySelector('.line-description');
 
-                        <div class="skills-group">
-                            <div class="skills-category">Web & UI/UX Design</div>
-                            <div>Figma, Adobe Xd, HTML, CSS, Design Systems, Components and Patterns, High-fidelity prototypes in Figma with embedded animations</div>
-                        </div>
+    upper.textContent = card.upper.text;
+    lower.textContent = card.lower.text;
+    desc.textContent  = card.description.text;
 
-                        <div class="skills-group">
-                            <div class="skills-category">Physical Interactive Devices & Robotics</div>
-                            <div>Proficient with Arduino Uno. Skilled in simple circuit design, sensor integration, programming, and fabrication with a focus on user interaction</div>
-                        </div>
-                    </div>
-                </div>
+    setStyle(upper, card.upper);
+    setStyle(lower, card.lower);
+    setStyle(desc,  card.description);
+}
+
+function setStyle(el, p) {
+    el.style.fontFamily    = p.family;
+    el.style.fontWeight    = p.weight;
+    el.style.fontStyle     = p.style;
+    el.style.fontSize      = p.size;
+    el.style.lineHeight    = p.lineHeight;
+    el.style.letterSpacing = p.letterSpacing;
+    el.style.textTransform = p.textTransform || 'none';
+    el.style.marginLeft = p.marginLeft || '0';
+    el.style.marginTop = p.marginTop || '0';
+}
+
+// =============================================================
+// FLIP CARD
+// Front shows current card, back shows the next. Click rotates
+// the card 180° on the X axis. After the flip completes, the
+// now-hidden face is preloaded with the next card so each flip
+// reveals fresh content.
+// =============================================================
+const card      = document.getElementById('heroCard');
+const frontFace = document.getElementById('cardFront');
+const backFace  = document.getElementById('cardBack');
+const labelEl   = document.getElementById('fontName');
+
+// Pick a card index that's different from the one shown on the previous load.
+// `lastCardIdx` is stashed in localStorage; on the very first load it's null.
+const LAST_KEY = 'lastCardIdx';
+let cardIdx;
+{
+    const prev = parseInt(localStorage.getItem(LAST_KEY), 10);
+    const pool = cards.map((_, i) => i).filter(i => i !== prev);
+    cardIdx = pool[Math.floor(Math.random() * pool.length)];
+    localStorage.setItem(LAST_KEY, String(cardIdx));
+}
+let isAnimating = false;
+
+const next = (i) => (i + 1) % cards.length;
+
+// Initial state
+applyCardToFace(frontFace, cards[cardIdx]);
+applyCardToFace(backFace,  cards[next(cardIdx)]);
+labelEl.textContent = cards[cardIdx].label;
+
+const FLIP_MS = 850;
+
+function flip() {
+    if (isAnimating || cards.length < 2) return;
+    isAnimating = true;
+
+    card.classList.toggle('flipped');
+    cardIdx = next(cardIdx);
+
+    // Update the label mid-flip so it lines up with the reveal
+    setTimeout(() => {
+        labelEl.textContent = cards[cardIdx].label;
+    }, FLIP_MS / 2);
+
+    // After the flip completes, preload the now-hidden face with the next card
+    setTimeout(() => {
+        const hidden = card.classList.contains('flipped') ? frontFace : backFace;
+        applyCardToFace(hidden, cards[next(cardIdx)]);
+        isAnimating = false;
+    }, FLIP_MS + 30);
+}
+
+card.addEventListener('click', flip);
+card.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        flip();
+    }
+});
+
+// =============================================================
+// Auto-flip: nudges the card every 12–22s at random so visitors
+// who don't touch it still see other capabilities. Deliberately
+// spacious cadence to stay calm — not a slideshow.
+// Pauses on hover, when the tab is hidden, and when the user has
+// prefers-reduced-motion set. Resets after any manual flip.
+// =============================================================
+const AUTOFLIP_MIN_MS = 6000;
+const AUTOFLIP_MAX_MS = 12000;
+let autoFlipTimer = null;
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+function scheduleAutoFlip() {
+    clearTimeout(autoFlipTimer);
+    if (prefersReducedMotion.matches) return;
+    const delay = AUTOFLIP_MIN_MS + Math.random() * (AUTOFLIP_MAX_MS - AUTOFLIP_MIN_MS);
+    autoFlipTimer = setTimeout(() => {
+        if (!document.hidden && !card.matches(':hover') && !isAnimating) {
+            flip();
+        }
+        scheduleAutoFlip();   // queue the next one regardless — keeps the rhythm going
+    }, delay);
+}
+
+// Pause while the tab is hidden so we don't churn in background
+document.addEventListener('visibilitychange', () => {
+    if (document.hidden) clearTimeout(autoFlipTimer);
+    else scheduleAutoFlip();
+});
+
+// Manual flips reset the timer so an auto-flip doesn't fire moments later
+card.addEventListener('click', scheduleAutoFlip);
+card.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') scheduleAutoFlip();
+});
+
+scheduleAutoFlip();
+
+// =============================================================
+// INTERACTION & EXPERIENCE PROJECTS (Section 02)
+// Click a tile → opens the lightbox with all items for that project.
+// The 6th tile (Lottie & Rive) expands inline to a 2×2 sub-grid.
+// =============================================================
+const IMG = (n) => `img/${n}`;
+const ixProjects = [
+    {
+        id: 'forma-teaser',
+        category: 'Teaser website',
+        title: 'Forma',
+        sub: 'Animated teaser site for a fitness brand launch.',
+        cover: { type: 'video', src: IMG('forma_teaser_07_hero-video-lowres.mp4') },
+        url: 'https://daianawebsites-stack.github.io/teaser-site/',
+        items: [
+            { type: 'video', src: IMG('forma_teaser_07_hero-video-lowres.mp4')},
+            { type: 'image', src: IMG('forma-website.jpg'), tag: 'Website Design'},
+        ]
+    },
+    {
+        id: 'proximity-lab',
+        category: 'Web Design + Lottie',
+        title: 'Proximity Lab',
+        sub: 'Website design and interactive Lottie animations.',
+        cover: { type: 'image', src: IMG('proximity_lab_01.png') },
+        url: 'https://proximity-fremont.netlify.app/',
+        items: [
+            { type: 'image', src: IMG('proximity_lab_01.png') },
+            { type: 'image', src: IMG('proximity_lab_02.png'), tag: 'Branding' },
+            { type: 'image', src: IMG('proximity_lab_03.png'), tag: 'Website Design' },
+            { type: 'image', src: IMG('proximity_lab_04.png'), tag: 'Homepage' },
+            { type: 'image', src: IMG('proximity_lab_05.png') },
+            { type: 'image', src: IMG('proximity_lab_06.png') },
+            { type: 'image', src: IMG('proximity_lab_07.png') },
+            { type: 'image', src: IMG('proximity_lab_08.png') },
+            { type: 'lottie', src: 'https://lottie.host/embed/b09f570e-7c5b-4318-aa67-62acf6182e87/llwVSPxs78.lottie' },
+            { type: 'youtube', src: 'https://www.youtube.com/embed/qsct4AerKuc' }
+        ]
+    },
+    {
+        id: 'arduino-tetrapod',
+        category: 'Physical computing',
+        title: 'Arduino Tetrapod Robot',
+        sub: 'Four-legged Arduino robot, designed and fabricated.',
+        cover: { type: 'image', src: IMG('arduino_tetrapod_04.jpg') },
+        items: [
+            { type: 'image', src: IMG('arduino_tetrapod_01.png'), tag: 'Phase 01' },
+            { type: 'image', src: IMG('arduino_tetrapod_02.png'), tag: 'Phase 02' },
+            { type: 'youtube', src: 'https://www.youtube.com/embed/eZV6RRWm1Dg' },
+            { type: 'image', src: IMG('arduino_tetrapod_03.png'), tag: 'Phase 03 Final Prototype' },
+            { type: 'youtube', src: 'https://www.youtube.com/embed/GuCDuvpeFWM' }
+        ]
+    },
+    {
+        id: 'colorful-interactive',
+        category: 'Physical computing',
+        title: 'Colorful Interactive Device',
+        sub: 'Tangible interface for colour and sound exploration.',
+        cover: { type: 'image', src: IMG('colorful_interactive_04.png') },
+        items: [
+            { type: 'image', src: IMG('colorful_interactive_01.png') },
+            { type: 'image', src: IMG('colorful_interactive_02.png') },
+            { type: 'image', src: IMG('colorful_interactive_03.png') , tag: 'BLUEPRINTS'},
+            { type: 'youtube', src: 'https://www.youtube.com/embed/YE27E5bbfvI' },
+            //{ type: 'youtube', src: 'https://www.youtube.com/embed/FJiaSEzaru0' }
+        ]
+    },
+    {
+        id: 'genart',
+        category: 'Generative art',
+        title: 'GenArt Program',
+        sub: 'Code-driven generative compositions.',
+        cover: { type: 'image', src: IMG('genart_program_01.png') },
+        url: 'https://daianayurzola.com/gen-art/index.html',
+        items: [
+            { type: 'image', src: IMG('genart_program_01.png') },
+            { type: 'image', src: IMG('genart_program_02.png') },
+            { type: 'image', src: IMG('genart_program_03.png') },
+            { type: 'image', src: IMG('genart_program_04.png') }
+        ]
+    },
+    {
+        id: 'lottie-rive',
+        category: 'Micro-interactions',
+        title: 'Lottie & Rive',
+        sub: 'Four collections of UI animations & interactions.',
+        cover: { type: 'lottie', src: 'https://lottie.host/embed/c2cb0b2d-5a4e-4c8c-8161-296482f2bacd/TT6Z8ia05Y.lottie' },
+        // No `items`. Sub-projects expand inline to a 2×2 grid.
+        subProjects: [
+            {
+                id: 'micro-lottie',
+                category: 'Status',
+                title: 'Hardware Animation',
+                sub: 'Looping micro-animations built in After Effects, exported via Lottie.',
+                cover: { type: 'image', src: IMG('micro_animation_lottie_01.png') },
+                items: [
+                    { type: 'lottie', src: 'https://lottie.host/embed/9f75d1c6-fbdf-45c5-ae60-106bb437bafc/twrYFFaCcN.lottie' },
+                    { type: 'image', src: IMG('micro_animation_lottie_02.jpeg') },
+                    { type: 'image', src: IMG('micro_animation_lottie_03.gif') },
+                    { type: 'image', src: IMG('micro_animation_lottie_04.gif') },
+                    { type: 'image', src: IMG('micro_animation_lottie_05.jpeg') },
+                    { type: 'image', src: IMG('micro_animation_lottie_06.jpeg') },
+                    { type: 'youtube', src: 'https://www.youtube.com/embed/2dDyqy-iiX0' }
+                ]
+            },
+            {
+                id: 'micro-figma',
+                category: 'Confirmation',
+                title: 'Micro Animation in Figma',
+                sub: 'Lottie animations embedded directly inside Figma prototypes.',
+                cover: { type: 'image', src: IMG('micro_animation_figma_01.png') },
+                items: [
+                    { type: 'lottie', src: 'https://lottie.host/embed/89f67347-fc41-440f-ab86-c3aa4567a84d/yGQFyNwbWo.lottie' },
+                    { type: 'image', src: IMG('micro_animation_figma_02.jpeg') },
+                    { type: 'image', src: IMG('micro_animation_figma_03.jpeg') },
+                    { type: 'image', src: IMG('micro_animation_figma_04.jpeg') },
+                    { type: 'image', src: IMG('micro_animation_figma_05.gif') },
+                    { type: 'image', src: IMG('micro_animation_figma_06.jpeg') },
+                    { type: 'image', src: IMG('micro_animation_figma_07.gif') }
+                ]
+            },
+            {
+                id: 'app-login',
+                category: 'Feedback',
+                title: 'App Login Character',
+                sub: 'Animated mascot states for a login flow.',
+                cover: { type: 'image', src: IMG('micro_animation_apu_01.png') },
+                items: [
+                    { type: 'lottie', tag: 'Invalid Password', src: 'https://lottie.host/embed/c2cb0b2d-5a4e-4c8c-8161-296482f2bacd/TT6Z8ia05Y.lottie' },
+                    { type: 'lottie', tag: 'Wrong Password',   src: 'https://lottie.host/embed/f3ec7b31-a108-4b55-933d-2e0bbef4cbad/vl3mDr9v8n.lottie' },
+                    { type: 'lottie', tag: 'Successful',       src: 'https://lottie.host/embed/81621892-9b06-4b2c-8c1d-2e1df9605e74/taphepqKb7.lottie' },
+                    { type: 'image',  src: IMG('micro_animation_apu_02.png') }
+                ]
+            },
+            {
+                id: 'rive-buttons',
+                category: 'Interactions',
+                title: 'Rive Buttons',
+                sub: 'State-driven button interactions built in Rive.',
+                cover: { type: 'lottie-json', src: IMG('chatbot-active.json') },
+                items: [
+                    { type: 'rive', src: 'https://rive.app/s/1bfvJpuOoEWBs-1BrjKR3g/embed?runtime=rive-renderer' },
+                    // 2nd rive hidden per request
+                    // { type: 'rive', src: 'https://rive.app/s/C87secQE8UiSACt_UVL9fw/embed?runtime=rive-renderer' },
+                    { type: 'rive', src: 'https://rive.app/s/z4APnfHsEkSwwwOvMnkGqw/embed?runtime=rive-renderer' },
+                    { type: 'rive', src: 'https://rive.app/s/7FiZv0gZr0eucamzWpQWQw/embed?runtime=rive-renderer' },
+                    { type: 'rive', src: 'https://rive.app/s/Qh00DHk2bEaUF_uAZ6aU1Q/embed?runtime=rive-renderer' },
+                    { type: 'rive', tag: 'Interactive Chatbot', src: 'https://rive.app/s/svVPzuBH_kOUp0W_P55Glg/embed?runtime=rive-renderer' },
+                    { type: 'image', src: IMG('chatbot_rive_01.png') }
+                ]
+            }
+        ]
+    }
+];
+
+// Render the IX grid
+const ixGrid = document.getElementById('ixGrid');
+function renderIxTile(p) {
+    let cov;
+    if (p.cover.type === 'video') {
+        cov = `<video src="${p.cover.src}" autoplay loop muted playsinline></video>`;
+    } else if (p.cover.type === 'lottie') {
+        // iframe stays click-through so the tile button still receives the click
+        cov = `<iframe class="ix-thumb-lottie" src="${p.cover.src}" title="${p.title}" tabindex="-1" aria-hidden="true"></iframe>`;
+    } else if (p.cover.type === 'lottie-json') {
+        // Local .json Lottie file rendered via the lottiefiles player web component
+        cov = `<lottie-player class="ix-thumb-lottie-json" src="${p.cover.src}" background="transparent" speed="1" autoplay loop aria-hidden="true"></lottie-player>`;
+    } else {
+        cov = `<img src="${p.cover.src}" alt="${p.title}" loading="lazy">`;
+    }
+    return `
+        <button class="ix-tile" data-ix="${p.id}" type="button">
+            <div class="ix-thumb">${cov}</div>
+            <div class="ix-cat">${p.category}</div>
+            <div class="ix-title">${p.title}</div>
+            <div class="ix-sub">${p.sub}</div>
+        </button>
+    `;
+}
+
+ixGrid.innerHTML = ixProjects.map(p => {
+    if (p.subProjects) {
+        // 6th tile: append an inline sub-grid wrapper after the tile
+        const subTiles = p.subProjects.map(s => renderIxTile(s)).join('');
+        return renderIxTile(p) + `
+            <div class="ix-sub-wrap" id="ix-sub-${p.id}">
+                <div class="ix-sub-grid" data-parent="${p.id}">${subTiles}</div>
             </div>
-        </div>
-    </section>
+        `;
+    }
+    return renderIxTile(p);
+}).join('');
 
-    <footer>
-        <div class="container">
-            <p>Designed with intention and developed using AI tools.</p>
-        </div>
-    </footer>
-
-    <script>
-        // Hamburger Menu Toggle
-        const hamburger = document.querySelector('.hamburger');
-        const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
-        const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
-
-        hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            mobileMenuOverlay.classList.toggle('active');
-            document.body.style.overflow = mobileMenuOverlay.classList.contains('active') ? 'hidden' : '';
-        });
-
-        mobileNavItems.forEach(item => {
-            item.addEventListener('click', () => {
-                const sectionId = item.getAttribute('data-section');
-                const section = document.getElementById(sectionId);
-                
-                if (section) {
-                    hamburger.classList.remove('active');
-                    mobileMenuOverlay.classList.remove('active');
-                    document.body.style.overflow = '';
-                    section.scrollIntoView({ behavior: 'smooth' });
-                }
-            });
-        });
-
-        // Hero Slider
-        const sliderInstances = document.querySelectorAll('.slider-instance');
-        let currentInstance = 0;
-        const animationDuration = 800; // ms for text animation
-        const displayDuration = 4000; // ms to display after animation completes
-        const fadeOutDuration = 600; // ms for fade out
-
-        function showNextInstance() {
-            const current = sliderInstances[currentInstance];
-            
-            // Fade out current instance
-            current.classList.add('fade-out');
-            
-            setTimeout(() => {
-                current.classList.remove('active', 'fade-out');
-                
-                // Move to next instance
-                currentInstance = (currentInstance + 1) % sliderInstances.length;
-                const next = sliderInstances[currentInstance];
-                
-                next.classList.add('active');
-            }, fadeOutDuration);
+// Find a project by id (top-level or nested sub-project)
+function findIxProject(id) {
+    for (const p of ixProjects) {
+        if (p.id === id) return p;
+        if (p.subProjects) {
+            const s = p.subProjects.find(sp => sp.id === id);
+            if (s) return s;
         }
+    }
+    return null;
+}
 
-        // Calculate total cycle time: animation + display + fade out
-        const cycleTime = animationDuration + displayDuration + fadeOutDuration;
-        
-        // Start the slider loop
-        setInterval(showNextInstance, cycleTime);
+// IX tile click — open lightbox OR expand sub-grid
+document.getElementById('ixGrid').addEventListener('click', (e) => {
+    const tile = e.target.closest('.ix-tile');
+    if (!tile) return;
+    const id = tile.dataset.ix;
+    const proj = findIxProject(id);
+    if (!proj) return;
+    if (proj.subProjects) {
+        const wrap = document.getElementById(`ix-sub-${id}`);
+        wrap.classList.toggle('is-open');
+    } else {
+        openLightbox(proj);
+    }
+});
 
-        // Desktop Navigation Menu
-        const navItems = document.querySelectorAll('.nav-item');
-        const navTitle = document.querySelector('.nav-title');
-        
-        // Nav title clicks to scroll to home
-        navTitle.addEventListener('click', () => {
-            const homeSection = document.getElementById('home');
-            if (homeSection) {
-                homeSection.scrollIntoView({ behavior: 'smooth' });
-            }
+// =============================================================
+// MOTION PROJECTS (Section 03)
+// First 6 visible. "See all projects" expands the rest inline.
+// =============================================================
+const COVER = (n) => `img/${n}`;
+const motionProjects = [
+    // ── First 6 visible ──
+    { category: 'Explainer',    title: 'Densify',                  cover: COVER('Densify.png'),                            videos: ['BsJQk7-NJGA'] },
+    { category: 'Explainer',    title: 'Woven Series',             cover: COVER('Woven_Series.png'),                       videos: ['awjQVKHxqtQ', 'ymvrm2C5d5M', 'pzXPXLNRxq4'] },
+    { category: 'Explainer',    title: 'Conductor + ContentKing',  cover: COVER('Conductor__ContentKing.png'),             videos: ['jMpKZcsBgnU'] },
+    { category: 'Explainer',    title: 'RTI Connext',              cover: COVER('RTI_Connext.png'),                        videos: ['buh7VCF56UQ'] },
+    { category: 'Explainer',    title: 'Instant — Overview',       cover: COVER('Instant_-_Overview.png'),                 videos: ['EU-IO3Up5Yg'] },
+    { category: 'Product Demo', title: 'Conductor Product Demo',   cover: COVER('Conductor_Product_Demo_2025.png'),        videos: ['y3XKk1xI4Pg'] },
+    // ── Rest (expanded by "See all projects") ──
+    { category: 'Explainer',    title: 'Great Big Video — Info Tech',         cover: COVER('Great_Big_Video_Info_Tech.png'),         videos: ['3dcqMy0xdSQ'] },
+    { category: 'Explainer',    title: 'Gulf Coast DevOps',                   cover: COVER('Gulf_Coast_Dev_Ops.png'),                videos: ['qcO5oYz75gQ'] },
+    { category: 'Explainer',    title: 'Great Big Video — Marketing Partner', cover: COVER('Great_Big_Video_Marketing_Partner.png'), videos: ['CwSJk9liNno'] },
+    { category: 'Explainer',    title: 'Woven',                               cover: COVER('Woven.png'),                             videos: ['mcRtMZfYrcU'] },
+    { category: 'Explainer',    title: 'Conductor ROI Calculator',            cover: COVER('Conductor_ROI_Calculator.png'),          videos: ['a4J_sphnEXk'] },
+    { category: 'Explainer',    title: 'Instant — Financial Intelligence',   cover: COVER('Instant_-_Financial_Intelligence.png'),  videos: ['wbiDOKv7t28'] },
+    { category: 'Explainer',    title: 'Instant — Supply Chain',              cover: COVER('Instant_-_Supply_Chain.png'),            videos: ['xS2A5aZh4uk'] },
+    { category: 'Product Demo', title: 'Woven Product Demo',                  cover: COVER('Woven_Product_Demo.png'),                videos: ['pzXPXLNRxq4'] },
+    { category: 'Product Demo', title: 'Woven UI Tour',                       cover: COVER('Woven_UI_Tour.png'),                     videos: ['aOC4Dp8fjjs'] },
+    { category: 'Product Demo', title: 'How to MySite Series',                cover: COVER('How_to_MySite_Series.png'),              videos: ['pugQFtwMiwQ','fa02LCiBQVE','Ks3bZ6lNo0U','d38RdwNpoC4','GymX1bsjJjY','qeNKObVGyZ4','TctSVlyTUxw'] },
+    { category: 'Product Demo', title: 'Conductor Product Demo (2021)',       cover: COVER('Conductor_Product_Demo_2021.png'),       videos: ['lIkPgiTfj1k'] },
+    { category: 'Product Demo', title: 'Conductor Live',                      cover: COVER('Conductor_Live.png'),                    videos: ['y3XKk1xI4Pg'] },
+    { category: 'Product Demo', title: 'Conductor Chrome Extension',          cover: COVER('Conductor_Chrome_Extension.png'),        videos: ['yHjm4ecExKk'] },
+    { category: 'Product Demo', title: 'Conductor C3 Overview',               cover: COVER('Conductor_C3_Overview.png'),             videos: ['xkjYjSDnSkw'] },
+    { category: 'Product Demo', title: 'Airvet',                              cover: COVER('Airvet.png'),                            videos: ['QZ_HNksJ8ic'] }
+];
+
+function renderMotionTile(p, idx) {
+    return `
+        <button class="motion-tile" data-motion="${idx}" type="button">
+            <div class="motion-thumb"><img src="${p.cover}" alt="${p.title}" loading="lazy"></div>
+            <div class="client">${p.category}</div>
+            <div class="title">${p.title}</div>
+        </button>
+    `;
+}
+
+const VISIBLE_COUNT = 6;
+const motionGrid      = document.getElementById('motionGrid');
+const motionGridExtra = document.getElementById('motionGridExtra');
+const motionToggle    = document.getElementById('motionToggle');
+
+motionGrid.innerHTML      = motionProjects.slice(0, VISIBLE_COUNT).map((p, i) => renderMotionTile(p, i)).join('');
+motionGridExtra.innerHTML = motionProjects.slice(VISIBLE_COUNT).map((p, i) => renderMotionTile(p, i + VISIBLE_COUNT)).join('');
+
+const motionExtraWrap = document.getElementById('motionExtraWrap');
+motionToggle.addEventListener('click', () => {
+    const willOpen = !motionExtraWrap.classList.contains('is-open');
+    if (willOpen) {
+        // Set max-height to the natural content height for a smooth open
+        motionExtraWrap.style.maxHeight = motionExtraWrap.scrollHeight + 'px';
+        motionExtraWrap.classList.add('is-open');
+    } else {
+        // Snap to current pixel height so transition starts from a concrete value, then collapse
+        motionExtraWrap.style.maxHeight = motionExtraWrap.scrollHeight + 'px';
+        void motionExtraWrap.offsetHeight;   // force reflow
+        motionExtraWrap.style.maxHeight = '0px';
+        motionExtraWrap.classList.remove('is-open');
+    }
+    motionToggle.textContent = willOpen ? 'Show fewer ↑' : 'See all projects ↓';
+    motionToggle.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+});
+
+// Motion tile click → lightbox with the project's videos
+[motionGrid, motionGridExtra].forEach(host => {
+    host.addEventListener('click', (e) => {
+        const tile = e.target.closest('.motion-tile');
+        if (!tile) return;
+        const idx = parseInt(tile.dataset.motion, 10);
+        const p = motionProjects[idx];
+        if (!p) return;
+        openLightbox({
+            title: p.title,
+            category: p.category,
+            items: p.videos.map(id => ({ type: 'youtube', src: `https://www.youtube.com/embed/${id}` }))
         });
-        
-        navItems.forEach(item => {
-            item.addEventListener('click', () => {
-                const sectionId = item.getAttribute('data-section');
-                const section = document.getElementById(sectionId);
-                
-                if (section) {
-                    section.scrollIntoView({ behavior: 'smooth' });
-                }
-            });
+    });
+});
+
+// =============================================================
+// LIGHTBOX (shared by IX + Motion)
+// =============================================================
+const lightbox      = document.getElementById('lightbox');
+const lightboxBody  = document.getElementById('lightboxBody');
+const lightboxTitle = document.getElementById('lightboxTitle');
+const lightboxClose = document.getElementById('lightboxClose');
+
+function renderItem(item) {
+    // Optional per-item tag chip (set `tag: 'Branding'` on any item to label it)
+    const customTag = item.tag ? `<span class="lb-tag">${item.tag}</span>` : '';
+    if (item.type === 'image') {
+        return `<div class="lb-item">${customTag}<img src="${item.src}" alt="" loading="lazy"></div>`;
+    }
+    if (item.type === 'video') {
+        return `<div class="lb-item">${customTag}<video src="${item.src}" autoplay loop muted playsinline controls></video></div>`;
+    }
+    if (item.type === 'youtube') {
+        // Add the current origin so YouTube can verify the parent — fixes Error 153 on local dev + production.
+        // No nocookie, no strict referrer — both have been seen to trigger 153 under certain video metadata.
+        const sep   = item.src.includes('?') ? '&' : '?';
+        const ytSrc = `${item.src}${sep}rel=0&modestbranding=1&playsinline=1&origin=${encodeURIComponent(location.origin)}`;
+        return `<div class="lb-item">${customTag}<iframe class="lb-youtube" src="${ytSrc}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>`;
+    }
+    if (item.type === 'lottie') {
+        return `<div class="lb-item"><span class="lb-tag">${item.tag || 'Lottie Animation'}</span><iframe class="lb-lottie" src="${item.src}" title="Lottie animation"></iframe></div>`;
+    }
+    if (item.type === 'rive') {
+        return `<div class="lb-item"><span class="lb-tag">${item.tag || 'Rive'}</span><iframe class="lb-rive" src="${item.src}" title="Rive animation"></iframe></div>`;
+    }
+    return '';
+}
+
+function openLightbox(proj) {
+    lightboxTitle.textContent = proj.title;
+    const itemsHtml = proj.items.map(renderItem).join('');
+    lightboxBody.innerHTML = `
+        <div class="lb-grid">${itemsHtml}</div>
+    `;
+
+    // Optional per-project "Visit site ↗" link in the lightbox bar
+    const linkEl = document.getElementById('lightboxLink');
+    if (proj.url) {
+        linkEl.href = proj.url;
+        linkEl.textContent = proj.linkLabel || 'Visit site ↗';
+        linkEl.hidden = false;
+    } else {
+        linkEl.hidden = true;
+    }
+
+    lightbox.classList.add('is-open');
+    lightbox.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+    lightbox.classList.remove('is-open');
+    lightbox.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    // Clear after the fade so iframes stop playing
+    setTimeout(() => { lightboxBody.innerHTML = ''; }, 300);
+}
+
+lightboxClose.addEventListener('click', closeLightbox);
+lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) closeLightbox();
+});
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && lightbox.classList.contains('is-open')) closeLightbox();
+});
+
+// =============================================================
+// FEATURED CAROUSEL (Section 01 — Vivia)
+// Replace placeholders with real app screens when ready.
+// =============================================================
+(function setupCarousel() {
+    const track = document.getElementById('carouselTrack');
+    const dotsHost = document.getElementById('carouselDots');
+    const slides = track ? Array.from(track.children) : [];
+    if (!track || slides.length === 0) return;
+
+    let idx = 0;
+    const AUTOPLAY_MS = 4500;
+    let timer = null;
+
+    // Build dots
+    slides.forEach((_, i) => {
+        const d = document.createElement('button');
+        d.type = 'button';
+        d.className = 'carousel-dot' + (i === 0 ? ' is-active' : '');
+        d.setAttribute('aria-label', `Go to slide ${i + 1}`);
+        d.addEventListener('click', () => { goTo(i); restartAutoplay(); });
+        dotsHost.appendChild(d);
+    });
+
+    function goTo(n) {
+        idx = (n + slides.length) % slides.length;
+        track.style.transform = `translateX(-${idx * 100}%)`;
+        dotsHost.querySelectorAll('.carousel-dot').forEach((d, i) => {
+            d.classList.toggle('is-active', i === idx);
         });
+    }
 
-        // Update active nav item on scroll
-        const sections = document.querySelectorAll('section[id]');
-        
-        function updateActiveNav() {
-            const scrollPosition = window.scrollY + window.innerHeight / 3;
-            
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.offsetHeight;
-                const sectionId = section.getAttribute('id');
-                
-                if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-                    navItems.forEach(item => {
-                        item.classList.remove('active');
-                        if (item.getAttribute('data-section') === sectionId) {
-                            item.classList.add('active');
-                        }
-                    });
-                }
-            });
-        }
+    document.getElementById('carouselPrev').addEventListener('click', () => { goTo(idx - 1); restartAutoplay(); });
+    document.getElementById('carouselNext').addEventListener('click', () => { goTo(idx + 1); restartAutoplay(); });
 
-        window.addEventListener('scroll', updateActiveNav);
-        updateActiveNav(); // Initial check
+    function startAutoplay() {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        timer = setInterval(() => goTo(idx + 1), AUTOPLAY_MS);
+    }
+    function stopAutoplay() { if (timer) { clearInterval(timer); timer = null; } }
+    function restartAutoplay() { stopAutoplay(); startAutoplay(); }
 
-        // Scroll-based animations
-        function handleScrollAnimations() {
-            const elements = document.querySelectorAll('.project, .about-content > div, section h2');
-            const windowHeight = window.innerHeight;
-            const scrollY = window.scrollY;
+    const media = document.getElementById('featuredMedia');
+    media.addEventListener('mouseenter', stopAutoplay);
+    media.addEventListener('mouseleave', startAutoplay);
+    startAutoplay();
+})();
 
-            elements.forEach(element => {
-                const elementTop = element.getBoundingClientRect().top + scrollY;
-                const elementBottom = elementTop + element.offsetHeight;
-                const viewportTop = scrollY;
-                const viewportBottom = scrollY + windowHeight;
+// =============================================================
+// "Watch the trailer" + "Personalization Engine" — open lightbox
+// =============================================================
+document.getElementById('watchTrailerBtn')?.addEventListener('click', () => {
+    openLightbox({
+        title: 'Vivia — Trailer',
+        items: [{ type: 'video', src: 'https://daianayurzola.com/dr-colleen-app/files/app_trailer.mp4' }]
+    });
+});
 
-                // Element is in viewport - fade in
-                if (elementTop < viewportBottom - 100 && elementBottom > viewportTop) {
-                    element.classList.add('visible');
-                    element.classList.remove('fade-out');
-                }
-                // Element has scrolled past - fade out
-                else if (elementBottom < viewportTop + 100) {
-                    element.classList.remove('visible');
-                    element.classList.add('fade-out');
-                }
-                // Element hasn't entered yet
-                else {
-                    element.classList.remove('visible');
-                    element.classList.remove('fade-out');
-                }
-            });
-        }
+document.getElementById('personalizationBtn')?.addEventListener('click', () => {
+    openLightbox({
+        title: 'Personalization Engine',
+        items: [
+            { type: 'image', src: 'img/personalization-engine.png', tag: 'Personalization Engine' }
+        ]
+        // no `url` field → Visit-site button stays hidden
+    });
+});
+</script>
 
-        // Throttle scroll events for performance
-        let scrollTimeout;
-        window.addEventListener('scroll', () => {
-            if (scrollTimeout) {
-                window.cancelAnimationFrame(scrollTimeout);
-            }
-            scrollTimeout = window.requestAnimationFrame(handleScrollAnimations);
-        });
-
-        // Initial check
-        handleScrollAnimations();
-
-        // Make h3 elements clickable with placeholder URLs
-        const projectTitles = document.querySelectorAll('.project-content h3');
-        projectTitles.forEach((title, index) => {
-            title.addEventListener('click', () => {
-                // Placeholder URL - replace with actual project URLs
-                window.location.href = '#project-' + (index + 1);
-            });
-        });
-    </script>
 </body>
 </html>
