@@ -8,7 +8,7 @@
 <link rel="icon" type="image/x-icon" href="img/favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Alice&family=Libre+Baskerville:ital@0;1&family=Merriweather:ital,wght@0,800;1,400&family=Ms+Madi&family=Nunito:wght@900&family=Oswald:wght@700&family=Playfair+Display:ital,wght@0,400;1,800&family=Quicksand:wght@500;700&family=Sacramento&family=Work+Sans:wght@300;400;500&family=Yeseva+One&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Alice&family=Libre+Baskerville:ital@0;1&family=Merriweather:ital,wght@0,800;1,400&family=Montserrat:wght@400;500;700&family=Ms+Madi&family=Nunito:wght@900&family=Oswald:wght@700&family=Playfair+Display:ital,wght@0,400;1,800&family=Quicksand:wght@500;700&family=Sacramento&family=Work+Sans:wght@300;400;500&family=Yeseva+One&display=swap" rel="stylesheet">
 <!-- LottieFiles player web component — used for local .json Lottie covers (e.g. Rive Buttons cover) -->
 <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 <style>
@@ -798,8 +798,9 @@ footer p {
     margin-bottom: 0.25rem;
 }
 .motion-tile .title {
-    font-size: 15px;
-    font-weight: 500;
+    font-family: 'Abril Fatface', serif;   /* matches .ix-tile .ix-title in section 02 for visual consistency */
+    font-size: 1.25rem;
+    line-height: 1.1;
     color: var(--black);
 }
 
@@ -1445,7 +1446,7 @@ const cards = [
         label: 'Ms Madi + Yeseva One',
         upper: {
             text: 'User',
-            family:        "'Ms Madi', regular",
+            family:        "'Ms Madi', cursive",
             weight:        500,
             style:         'normal',
             size:          'clamp(3rem, 5vw, 4rem)',
@@ -1456,7 +1457,7 @@ const cards = [
         },
         lower: {
             text: 'Understanding',
-            family:        "'Yeseva One', regular",
+            family:        "'Yeseva One', serif",
             weight:        900,
             style:         'normal',
             size:          'clamp(1.5rem, 3.4vw, 2.25rem)',
@@ -1641,7 +1642,7 @@ const ixProjects = [
             { type: 'image', src: IMG('proximity_lab_07.png') },
             { type: 'image', src: IMG('proximity_lab_08.png') },
             { type: 'lottie', src: 'https://lottie.host/embed/b09f570e-7c5b-4318-aa67-62acf6182e87/llwVSPxs78.lottie' },
-            { type: 'youtube', src: 'https://www.youtube.com/embed/qsct4AerKuc' }
+            { type: 'youtube', src: 'https://www.youtube.com/embed/qsct4AerKuc', autoplay: true }
         ]
     },
     {
@@ -1668,7 +1669,7 @@ const ixProjects = [
             { type: 'image', src: IMG('colorful_interactive_01.png') },
             { type: 'image', src: IMG('colorful_interactive_02.png') },
             { type: 'image', src: IMG('colorful_interactive_03.png') , tag: 'BLUEPRINTS'},
-            { type: 'youtube', src: 'https://www.youtube.com/embed/YE27E5bbfvI' },
+            { type: 'youtube', src: 'https://www.youtube.com/embed/YE27E5bbfvI', autoplay: true },
             //{ type: 'youtube', src: 'https://www.youtube.com/embed/FJiaSEzaru0' }
         ]
     },
@@ -1834,7 +1835,7 @@ const motionProjects = [
     // ── First 6 visible ──
     { category: 'Explainer',    title: 'Densify',                  cover: COVER('Densify.png'),                            videos: ['BsJQk7-NJGA'] },
     { category: 'Explainer',    title: 'Woven Series',             cover: COVER('Woven_Series.png'),                       videos: ['awjQVKHxqtQ', 'ymvrm2C5d5M', 'pzXPXLNRxq4'] },
-    { category: 'Explainer',    title: 'Conductor + ContentKing',  cover: COVER('Conductor__ContentKing.png'),             videos: ['jMpKZcsBgnU'] },
+    { category: 'Explainer',    title: 'Conductor + ContentKing',  cover: COVER('Conductor_ContentKing.png'),             videos: ['jMpKZcsBgnU'] },
     { category: 'Explainer',    title: 'RTI Connext',              cover: COVER('RTI_Connext.png'),                        videos: ['buh7VCF56UQ'] },
     { category: 'Explainer',    title: 'Instant — Overview',       cover: COVER('Instant_Overview.png'),                 videos: ['EU-IO3Up5Yg'] },
     { category: 'Product Demo', title: 'Conductor Product Demo',   cover: COVER('Conductor_Product_Demo_2025.png'),        videos: ['y3XKk1xI4Pg'] },
@@ -1929,7 +1930,10 @@ function renderItem(item) {
         // Add the current origin so YouTube can verify the parent — fixes Error 153 on local dev + production.
         // No nocookie, no strict referrer — both have been seen to trigger 153 under certain video metadata.
         const sep   = item.src.includes('?') ? '&' : '?';
-        const ytSrc = `${item.src}${sep}rel=0&modestbranding=1&playsinline=1&origin=${encodeURIComponent(location.origin)}`;
+        // Opt-in autoplay per item (set `autoplay: true` on the entry). Browsers block sound autoplay,
+        // so we also mute — the user can unmute via the YouTube controls.
+        const autoplayParams = item.autoplay ? '&autoplay=1&mute=1' : '';
+        const ytSrc = `${item.src}${sep}rel=0&modestbranding=1&playsinline=1&origin=${encodeURIComponent(location.origin)}${autoplayParams}`;
         return `<div class="lb-item">${customTag}<iframe class="lb-youtube" src="${ytSrc}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>`;
     }
     if (item.type === 'lottie') {
@@ -1972,8 +1976,12 @@ function closeLightbox() {
 }
 
 lightboxClose.addEventListener('click', closeLightbox);
+// Backdrop close: any click that doesn't land on a content item, the top bar,
+// or a link/button inside the lightbox closes it. Covers both the outer
+// .lightbox shell and the dark padding inside .lightbox-body.
 lightbox.addEventListener('click', (e) => {
-    if (e.target === lightbox) closeLightbox();
+    if (e.target.closest('.lb-item, .lightbox-bar, a, button')) return;
+    closeLightbox();
 });
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && lightbox.classList.contains('is-open')) closeLightbox();
