@@ -245,9 +245,6 @@ p.body b { font-weight: 500; }
 footer { padding: 3rem 5vw; border-top: 1px solid var(--black); text-align: center; }
 footer p { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--gray); }
 
-/* Reveal on scroll */
-.reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
-.reveal.visible { opacity: 1; transform: translateY(0); }
 </style>
 </head>
 <body>
@@ -516,14 +513,6 @@ footer p { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.18em
 </div>
 
 <script>
-    // Scroll reveal, opacity + transform only (60fps)
-    const revealEls = document.querySelectorAll('.section-head, .cols, .lede-lg, .insights, .modes, .steps, .pull--center, .media, .quote, .close .script, .close .pull');
-    revealEls.forEach(el => el.classList.add('reveal'));
-    const io = new IntersectionObserver((entries) => {
-        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
-    }, { threshold: 0.12 });
-    revealEls.forEach(el => io.observe(el));
-
     // Auto-build slides for any [data-carousel] that declares a count via data-screens.
     // Filenames are zero-padded `01.png..NN.png` inside `data-screen-base`.
     document.querySelectorAll('[data-carousel][data-screens]').forEach(car => {
