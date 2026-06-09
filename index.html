@@ -1147,30 +1147,29 @@ footer p {
                          `poster` shows on first paint and while the video buffers. -->
                     <video class="featured-video"
                            src="https://daianayurzola.com/dr-colleen-app/files/app_demo.mp4"
-                           //poster="img/placeholder.png"
+                    
                            autoplay loop muted playsinline></video>
                 </div>
-                <p class="featured-credit">Designed end-to-end in collaboration with <strong style="color: var(--black); font-weight: 500;">Colleen Fogarty Draper, PhD, RD</strong>.</p>
             </div>
             <div class="featured-text-col">
                 <div class="featured-text">
                     <p>
-                        A mobile experience featuring an AI-powered conversational assistant for women navigating perimenopause and menopause, a major life transition that remains understudied, stigmatized, and poorly supported by existing digital tools.
+                        A mobile experience featuring an AI-powered conversational assistant for women navigating Peri + Menopause, a major life transition that remains understudied, stigmatized, and poorly supported by existing digital tools.
                     </p>
                     <p>
-                        This project spans the full product journey. The <strong style="color: var(--black); font-weight: 500;">case study</strong> explores the user research, journey mapping, and onboarding design behind the experience, while the <strong style="color: var(--black); font-weight: 500;">live app</strong>, prototyped and developed using Anthropic’s Claude, translates those insights into personalized nutrition and lifestyle guidance through a hybrid AI–human system.
+                        This project spans the full product journey, from user research to a live application developed using Anthropic’s Claude and designed end-to-end in collaboration with <strong style="color: var(--black); font-weight: 500;">Colleen Fogarty Draper, PhD, RD</strong>. The system translates user data into personalized nutrition and lifestyle guidance through a hybrid AI–human model.
                     </p>
                     <p>
                         Built around trust, the AI Assistant serves as a transparent intermediary, delivering evidence-based recommendations across 20+ menopause-related symptoms while adapting its tone and support to each user’s needs and emotional state.
                     </p>
+
                 </div>
                 <div class="featured-cta">
-                    <a class="btn btn--ghost" href="https://daianayurzola.com/phenomx-health-redesign/case-study/" target="_blank" rel="noopener">Case study →</a>
+                    <a class="btn btn--ghost" href="https://daianayurzola.com/dr-colleen-app/demo/case-study/index.html" target="_self" rel="noopener">Case study →</a>
                     <!-- Hidden for now — uncomment to bring back once the trailer is ready
                     <button class="btn btn--ghost" id="watchTrailerBtn" type="button">Watch the trailer →</button>
                     -->
                     <a class="btn btn--primary" href="https://daianayurzola.com/dr-colleen-app/demo/?demo=quick" target="_blank" rel="noopener">Try the demo →</a>
-                    <button class="btn btn--ghost" id="personalizationBtn" type="button">Personalization Engine →</button>
                 </div>
             </div>
         </div>
@@ -2052,7 +2051,7 @@ document.addEventListener('keydown', (e) => {
 })();
 
 // =============================================================
-// "Watch the trailer" + "Personalization Engine" — open lightbox
+// "Watch the trailer" — opens the trailer mp4 in the lightbox
 // =============================================================
 document.getElementById('watchTrailerBtn')?.addEventListener('click', () => {
     openLightbox({
@@ -2061,15 +2060,6 @@ document.getElementById('watchTrailerBtn')?.addEventListener('click', () => {
     });
 });
 
-document.getElementById('personalizationBtn')?.addEventListener('click', () => {
-    openLightbox({
-        title: 'Personalization Engine',
-        items: [
-            { type: 'image', src: 'img/personalization-engine.png', tag: 'Personalization Engine' }
-        ]
-        // no `url` field → Visit-site button stays hidden
-    });
-});
 </script>
 
 </body>
