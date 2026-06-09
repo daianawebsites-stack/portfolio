@@ -196,6 +196,29 @@ p.body b { font-weight: 500; }
 .carousel-dots button { width: 9px; height: 9px; border: 1px solid var(--black); background: var(--white); padding: 0; cursor: pointer; transition: background 0.3s ease; }
 .carousel-dots button.active { background: var(--black); }
 
+/* Carousel controls (prev / counter / play-pause / next) — replaces dot strip for long carousels */
+.carousel-controls {
+    display: flex; gap: 0.75rem; align-items: center; justify-content: center;
+    margin-top: 1rem;
+}
+.carousel-btn {
+    width: 36px; height: 36px;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: var(--white); color: var(--black); border: 1px solid var(--black);
+    font-family: 'Work Sans', sans-serif;
+    font-size: 1.1rem; line-height: 1;
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+.carousel-btn:hover { background: var(--black); color: var(--white); }
+.carousel-counter {
+    font-family: 'Work Sans', sans-serif;
+    font-variant-numeric: tabular-nums;
+    font-size: 0.85rem; letter-spacing: 0.08em;
+    color: var(--gray);
+    min-width: 5ch; text-align: center;
+}
+
 /* Clickable media + lightbox */
 .media, .carousel { cursor: zoom-in; }
 .lightbox { position: fixed; inset: 0; z-index: 2000; background: rgba(0,0,0,0.92); display: none; align-items: center; justify-content: center; padding: 6vh 5vw; }
@@ -367,21 +390,14 @@ footer p { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.18em
                 <p class="body"><b>Trust by design.</b> The assistant is a transparent intermediary: it attributes every recommendation to Dr. Colleen and never pretends to be her. If user needs it, it also offers a direct line to reach her.</p>
             </div>
             <div>
-                <!--
-                    TODO: drop 4 phone screenshots (1080×2400 portrait) into ./img/ and
-                    enable the carousel slides below. Suggested filenames:
-                      img/screen-chat.png  · img/screen-save.png
-                      img/screen-report.png · img/screen-tracker.png
-                <div class="carousel" data-carousel>
-                    <div class="slide active" style="background-image:url('img/screen-chat.png'); background-size:cover;"></div>
-                    <div class="slide" style="background-image:url('img/screen-save.png'); background-size:cover;"></div>
-                    <div class="slide" style="background-image:url('img/screen-report.png'); background-size:cover;"></div>
-                    <div class="slide" style="background-image:url('img/screen-tracker.png'); background-size:cover;"></div>
-                </div>
-                <div class="carousel-dots" data-carousel-dots></div>
-                -->
-                <div class="media media--phone" style="margin:0; background-image:none; background-color:var(--light-gray);">
-                    <span class="cap">Screen captures coming soon</span>
+                <!-- Slides auto-generated from data-screens + data-screen-base by the bootstrap below.
+                     To add/remove screens, just rename files (01.png..NN.png) and update data-screens. -->
+                <div class="carousel" data-carousel data-screens="26" data-screen-base="img/app-screens"></div>
+                <div class="carousel-controls" data-carousel-controls>
+                    <button class="carousel-btn carousel-prev" type="button" aria-label="Previous screen">‹</button>
+                    <span class="carousel-counter" data-carousel-counter aria-live="polite">1 / 26</span>
+                    <button class="carousel-btn carousel-playpause" type="button" aria-label="Pause autoplay">⏸</button>
+                    <button class="carousel-btn carousel-next" type="button" aria-label="Next screen">›</button>
                 </div>
             </div>
         </div>
@@ -508,28 +524,78 @@ footer p { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.18em
     }, { threshold: 0.12 });
     revealEls.forEach(el => io.observe(el));
 
-    // Carousel(s), auto-rotate phone screenshots, with clickable dots
+    // Auto-build slides for any [data-carousel] that declares a count via data-screens.
+    // Filenames are zero-padded `01.png..NN.png` inside `data-screen-base`.
+    document.querySelectorAll('[data-carousel][data-screens]').forEach(car => {
+        const count = parseInt(car.dataset.screens, 10);
+        const base = (car.dataset.screenBase || '').replace(/\/$/, '');
+        if (!count || car.children.length) return;     // skip if already populated
+        for (let i = 1; i <= count; i++) {
+            const slide = document.createElement('div');
+            slide.className = 'slide' + (i === 1 ? ' active' : '');
+            const num = String(i).padStart(2, '0');
+            slide.style.backgroundImage = `url('${base}/${num}.png')`;
+            slide.style.backgroundSize = 'cover';
+            car.appendChild(slide);
+        }
+    });
+
+    // Carousel(s): auto-rotate phone screenshots. Supports either a dot strip OR
+    // a control bar (prev / counter / play-pause / next). Whichever exists in the
+    // sibling DOM gets wired up — the other is silently skipped.
     document.querySelectorAll('[data-carousel]').forEach(car => {
-        const slides = Array.from(car.querySelectorAll('.slide'));
-        const dotsWrap = car.parentElement.querySelector('[data-carousel-dots]');
+        const slides    = Array.from(car.querySelectorAll('.slide'));
         if (!slides.length) return;
+        const dotsWrap  = car.parentElement.querySelector('[data-carousel-dots]');
+        const controls  = car.parentElement.querySelector('[data-carousel-controls]');
+        const counterEl = controls?.querySelector('[data-carousel-counter]');
+        const prevBtn   = controls?.querySelector('.carousel-prev');
+        const nextBtn   = controls?.querySelector('.carousel-next');
+        const ppBtn     = controls?.querySelector('.carousel-playpause');
+
         let i = 0;
-        const dots = slides.map((_, idx) => {
+        let isPaused = false;
+        const INTERVAL_MS = 3500;
+
+        // Optional dot strip
+        const dots = dotsWrap ? slides.map((_, idx) => {
             const b = document.createElement('button');
             b.type = 'button';
             b.setAttribute('aria-label', 'Go to slide ' + (idx + 1));
-            if (dotsWrap) dotsWrap.appendChild(b);
-            b.addEventListener('click', () => { go(idx); restart(); });
+            dotsWrap.appendChild(b);
+            b.addEventListener('click', (e) => { e.stopPropagation(); go(idx); restart(); });
             return b;
-        });
+        }) : [];
+
         function go(n) {
             slides[i].classList.remove('active'); dots[i] && dots[i].classList.remove('active');
             i = (n + slides.length) % slides.length;
-            slides[i].classList.add('active'); dots[i] && dots[i].classList.add('active');
+            slides[i].classList.add('active');    dots[i] && dots[i].classList.add('active');
+            if (counterEl) counterEl.textContent = `${i + 1} / ${slides.length}`;
         }
+
+        let timer = null;
+        function play() {
+            clearInterval(timer);
+            timer = setInterval(() => go(i + 1), INTERVAL_MS);
+            if (ppBtn) { ppBtn.textContent = '⏸'; ppBtn.setAttribute('aria-label', 'Pause autoplay'); }
+            isPaused = false;
+        }
+        function pause() {
+            clearInterval(timer); timer = null;
+            if (ppBtn) { ppBtn.textContent = '▶'; ppBtn.setAttribute('aria-label', 'Play autoplay'); }
+            isPaused = true;
+        }
+        function restart() { if (!isPaused) play(); }
+
+        // Wire control bar — stopPropagation so clicks don't bubble to the
+        // carousel's lightbox-open handler (registered below).
+        prevBtn?.addEventListener('click', (e) => { e.stopPropagation(); go(i - 1); restart(); });
+        nextBtn?.addEventListener('click', (e) => { e.stopPropagation(); go(i + 1); restart(); });
+        ppBtn?.addEventListener('click',   (e) => { e.stopPropagation(); isPaused ? play() : pause(); });
+
         go(0);
-        let timer = setInterval(() => go(i + 1), 3500);
-        function restart() { clearInterval(timer); timer = setInterval(() => go(i + 1), 3500); }
+        play();
     });
 
     // Lightbox — click any image/media to open it bigger
