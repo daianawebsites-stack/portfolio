@@ -140,11 +140,15 @@ a { color: inherit; }
     background: var(--white);
     box-sizing: border-box;
     min-height: inherit;
+    transform: translate3d(0, 0, 0);   /* iOS Safari: translate3d (not translateZ(0)) forces a
+                                          real 3D compositing layer so backface-visibility
+                                          actually hides the mirrored back of the front face
+                                          during the flip transition */
 }
 .hero-card-back {
     position: absolute;
     inset: 0;
-    transform: rotateX(180deg);
+    transform: translate3d(0, 0, 0) rotateX(180deg);
 }
 
 /* Card-internal type stack — `.line-upper` and `.line-lower` are placeholders;
@@ -599,6 +603,7 @@ a { color: inherit; }
     text-decoration: none;
     border-bottom: 2px solid var(--black);
     transition: opacity 0.3s ease;
+    overflow-wrap: anywhere;       /* let the long email break if the viewport is narrower than the link */
 }
 .contact-cta a:hover { opacity: 0.5; }
 .contact-sub {
@@ -659,6 +664,8 @@ footer p {
     .hero-jump { flex-direction: column; gap: 0.75rem; }
     .featured-cta { flex-direction: column; align-items: stretch; }
     .featured-cta .btn { justify-content: center; }
+    /* Long email overruns the viewport at the desktop clamp — drop the floor */
+    .contact-cta { font-size: clamp(1.6rem, 7.5vw, 2.5rem); }
 }
 /* ============================================
    INTERACTION & EXPERIENCE GRID  (Section 02)
@@ -1090,7 +1097,7 @@ footer p {
                     </h2>
                     <p class="line-description"></p>
                     <div class="card-hint">
-                        <span class="icon">↻</span>
+                        <span class="icon">↻&#xFE0E;</span>
                         <span>Tap to flip</span>
                     </div>
                 </div>
@@ -1101,7 +1108,7 @@ footer p {
                     </h2>
                     <p class="line-description"></p>
                     <div class="card-hint">
-                        <span class="icon">↻</span>
+                        <span class="icon">↻&#xFE0E;</span>
                         <span>Tap to flip</span>
                     </div>
                 </div>
@@ -1125,7 +1132,7 @@ footer p {
         <div class="section-eyebrow">
             <span class="num">01 / Product Design</span>
             <span class="divider"></span>
-            <span>Designing Digital Products for Women's Health </span>
+            <span>Designing Digital Products for Women's health</span>
         </div>
         <div class="featured-intro">
             <h3 class="featured-title">Your Upgrade <br/> <span class="featured-subtitle">by Dr. Colleen</span></h3>
@@ -1144,7 +1151,7 @@ footer p {
             <div class="featured-media-col">
                 <div class="featured-media" id="featuredMedia">
                     <!-- Placeholder video. Swap `src` with the real Your Upgrade teaser (mp4) when ready.
-                         `poster` shows on the first paint, while the video buffers. -->
+                         `poster` shows on first paint and while the video buffers. -->
                     <video class="featured-video"
                            src="https://daianayurzola.com/dr-colleen-app/files/app_demo.mp4"
                     
@@ -1165,7 +1172,7 @@ footer p {
 
                 </div>
                 <div class="featured-cta">
-                    <a class="btn btn--ghost" href="https://daianayurzola.com/dr-colleen-app/case-study/index.html" target="_self" rel="noopener">Case study →</a>
+                    <a class="btn btn--ghost" href="https://daianayurzola.com/dr-colleen-app/demo/case-study/index.html" target="_self" rel="noopener">Case study →</a>
                     <!-- Hidden for now — uncomment to bring back once the trailer is ready
                     <button class="btn btn--ghost" id="watchTrailerBtn" type="button">Watch the trailer →</button>
                     -->
@@ -1272,9 +1279,9 @@ footer p {
             Open to projects where design, motion, interaction, and AI meet. Currently based in the Bay Area.
         </p>
         <div class="contact-links">
-            <a href="https://www.linkedin.com/in/daianayurzola/" target="_blank" rel="noopener">LinkedIn ↗</a>
-            <a href="https://www.behance.net/daianayurzola" target="_blank" rel="noopener">Behance ↗</a>
-            <a href="https://daianayurzola.myportfolio.com/" target="_blank" rel="noopener">Adobe Portfolio ↗</a>
+            <a href="https://www.linkedin.com/in/daianayurzola/" target="_blank" rel="noopener">LinkedIn ↗&#xFE0E;</a>
+            <a href="https://www.behance.net/daianayurzola" target="_blank" rel="noopener">Behance ↗&#xFE0E;</a>
+            <a href="https://daianayurzola.myportfolio.com/" target="_blank" rel="noopener">Adobe Portfolio ↗&#xFE0E;</a>
         </div>
     </div>
 </section>
@@ -1707,7 +1714,7 @@ const ixProjects = [
         category: 'Micro-interactions',
         title: 'Lottie & Rive',
         sub: 'Four collections of UI animations & interactions.',
-        cover: { type: 'lottie', src: 'https://lottie.host/embed/c2cb0b2d-5a4e-4c8c-8161-296482f2bacd/TT6Z8ia05Y.lottie' },
+        cover: { type: 'lottie-json', src: IMG('lottie-rive-cover.json') },
         // No `items`. Sub-projects expand inline to a 2×2 grid.
         subProjects: [
             {
