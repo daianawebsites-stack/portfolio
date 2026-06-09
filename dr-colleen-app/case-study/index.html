@@ -1,1 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YU, Designing an AI Companion for Menopause · Daiana Yurzola</title>
+<meta name="description" content="A case study on YU (Your Upgrade): designing an AI-powered women's health platform that turns perimenopause and menopause support into an ongoing conversation. Research, strategy, UX, and prompt design end-to-end.">
+<link rel="canonical" href="https://daianayurzola.com/case-study/">
 
+<!-- Open Graph (Facebook, LinkedIn, iMessage, Slack, Discord) -->
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://daianayurzola.com/case-study/">
+<meta property="og:title" content="YU, Designing an AI Companion for Menopause · Daiana Yurzola">
+<meta property="og:description" content="A case study on YU (Your Upgrade): designing an AI-powered women's health platform that turns perimenopause and menopause support into an ongoing conversation.">
+<meta property="og:image" content="https://daianayurzola.com/case-study/img/app-overview.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="660">
+<meta property="og:image:alt" content="YU app overview — AI assistant and key screens">
+
+<!-- Twitter / X large-image card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="YU, Designing an AI Companion for Menopause · Daiana Yurzola">
+<meta name="twitter:description" content="A case study on YU (Your Upgrade): designing an AI-powered women's health platform that turns perimenopause and menopause support into an ongoing conversation.">
+<meta name="twitter:image" content="https://daianayurzola.com/case-study/img/app-overview.png">
+
+<link rel="icon" type="image/x-icon" href="https://daianayurzola.com/img/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Work+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Ms+Madi&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   TOKENS, mirrors the portfolio design system
+   ============================================================ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+    --black: #000000;
+    --white: #FFFFFF;
+    --gray: #666666;
+    --light-gray: #F8F8F8;
+}
+html { scroll-behavior: smooth; }
+body {
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--black);
+    background: var(--white);
+    overflow-x: hidden;
+}
+::selection { background: var(--black); color: var(--white); }
+h1, h2, h3 { font-family: 'Abril Fatface', serif; font-weight: 400; line-height: 1.2; letter-spacing: -0.01em; }
+a { color: inherit; }
+
+.container { max-width: 1400px; margin: 0 auto; padding: 0 5vw; }
+.script { font-family: 'Ms Madi', cursive; font-weight: 400; }
+
+/* ============================================================
+   NAV
+   ============================================================ */
+.nav {
+    position: sticky; top: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.25rem 5vw;
+    background: var(--white);
+    border-bottom: 1px solid var(--black);
+}
+.nav .logo { font-family: 'Ms Madi', cursive; font-size: clamp(1.8rem, 3.5vw, 2.5rem); line-height: 1; text-decoration: none; }
+.nav .back {
+    font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em;
+    text-decoration: none; border-bottom: 1px solid var(--black); padding-bottom: 2px;
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero { padding: 8vh 0 6vh; border-bottom: 1px solid var(--black); }
+.hero h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1.2; letter-spacing: -0.01em; margin-bottom: 1rem; }
+.hero h2 { font-size: clamp(1.5rem, 3vw, 2.5rem); line-height: 1.2; letter-spacing: -0.01em; max-width: 22ch; margin-bottom: 1.75rem; }
+.hero .lede { font-size: 18px; line-height: 1.7; color: var(--gray); max-width: 70ch; margin-bottom: 2.5rem; }
+
+.meta {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem;
+    padding-top: 2rem; border-top: 1px solid var(--black); margin-bottom: 2.5rem;
+}
+.meta .label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--gray); font-weight: 500; margin-bottom: 0.5rem; }
+.meta .value { font-size: 15px; line-height: 1.5; }
+@media (max-width: 768px) { .meta { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; } }
+
+/* ============================================================
+   TAGS + BUTTONS
+   ============================================================ */
+.tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.tag {
+    display: inline-block; font-size: 0.875rem; padding: 0.5rem 1.25rem;
+    border: 1px solid var(--black); transition: all 0.3s ease;
+}
+.tag:hover { background: var(--black); color: var(--white); }
+
+.btn-row { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2.5rem; }
+.btn {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    font-family: 'Work Sans', sans-serif; font-weight: 500;
+    font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.12em;
+    text-decoration: none; padding: 0.85rem 1.6rem; border: 1px solid var(--black);
+    background: var(--white); color: var(--black);
+    position: relative; overflow: hidden; transition: color 0.3s ease;
+}
+.btn::before { content: ''; position: absolute; inset: 0 0 auto 0; height: 0; bottom: 0; top: auto; background: var(--black); transition: height 0.4s ease; z-index: -1; }
+.btn:hover { color: var(--white); }
+.btn:hover::before { height: 100%; }
+.btn--solid { background: var(--black); color: var(--white); }
+.btn--solid::before { background: var(--white); }
+.btn--solid:hover { color: var(--black); }
+
+/* ============================================================
+   SECTIONS
+   ============================================================ */
+.section { padding: 7rem 0; border-bottom: 1px solid var(--black); }
+.section-head { display: flex; align-items: baseline; gap: 1.5rem; margin-bottom: 3rem; }
+.section-number { font-size: 1rem; letter-spacing: 0.1em; color: var(--gray); font-weight: 500; min-width: 2.5rem; }
+.section-head h2 { font-size: clamp(2rem, 5vw, 3.5rem); }
+
+.lede-lg { display: block; font-family: 'Work Sans', sans-serif; font-weight: 300; font-size: clamp(1.2rem, 2vw, 1.55rem); line-height: 1.4; max-width: 36ch; border-left: 3px solid var(--black); padding-left: 1.75rem; margin-bottom: 2.5rem; }
+p.body { font-size: 18px; line-height: 1.8; max-width: 66ch; margin-bottom: 1.5rem; }
+p.body:last-child { margin-bottom: 0; }
+p.body b { font-weight: 500; }
+
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem 4rem; }
+.cols--narrow { grid-template-columns: 1fr 1fr; gap: 3rem; }
+@media (max-width: 768px) { .cols, .cols--narrow { grid-template-columns: 1fr; gap: 2rem; } }
+
+/* Pull quote, big serif statement */
+.pull {
+    font-family: 'Abril Fatface', serif; font-weight: 400;
+    font-size: clamp(1.6rem, 3.4vw, 2.8rem); line-height: 1.25; letter-spacing: -0.01em;
+    max-width: 22ch; margin: 1rem 0;
+}
+.pull--center { margin: 3rem auto; text-align: center; max-width: 26ch; }
+
+/* Insight rows */
+.insights { margin-top: 1rem; }
+.rule { border: 0; border-top: 1px solid var(--black); margin: 3rem 0; }
+.insight {
+    display: grid; grid-template-columns: 3rem 1fr; gap: 1.5rem;
+    padding: 1.5rem 0; border-bottom: 1px solid #e5e5e5; align-items: baseline;
+}
+.insight .n { font-size: 0.75rem; letter-spacing: 0.15em; color: var(--gray); font-weight: 500; }
+.insight .t { font-size: 17px; line-height: 1.6; max-width: 62ch; }
+.insight .t b { font-weight: 500; }
+
+/* Mode cards */
+.modes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border: 1px solid var(--black); margin-top: 1rem; }
+.mode { padding: 2rem 1.75rem; border-right: 1px solid var(--black); }
+.mode:last-child { border-right: none; }
+.mode .k { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--gray); font-weight: 500; margin-bottom: 0.75rem; }
+.mode h3 { font-size: 1.5rem; margin-bottom: 0.75rem; }
+.mode p { font-size: 15px; line-height: 1.6; color: var(--gray); }
+@media (max-width: 768px) { .modes { grid-template-columns: 1fr; } .mode { border-right: none; border-bottom: 1px solid var(--black); } .mode:last-child { border-bottom: none; } }
+
+/* Numbered steps (iterations) */
+.steps { margin-top: 1rem; border-top: 1px solid var(--black); }
+.step {
+    display: grid; grid-template-columns: 5rem 1fr; gap: 2rem;
+    padding: 2.25rem 0; border-bottom: 1px solid #e5e5e5; align-items: start;
+}
+.step .num { font-family: 'Abril Fatface', serif; font-size: 2.5rem; line-height: 1; color: var(--black); }
+.step h3 { font-family: 'Work Sans', sans-serif; font-weight: 500; font-size: 1.15rem; letter-spacing: 0; margin-bottom: 0.5rem; }
+.step .k { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--gray); font-weight: 500; margin-bottom: 0.6rem; }
+.step p { font-size: 16px; line-height: 1.7; color: var(--gray); max-width: 64ch; }
+@media (max-width: 768px) { .step { grid-template-columns: 1fr; gap: 0.75rem; } .step .num { font-size: 2rem; } }
+
+/* Media placeholder */
+.media {
+    aspect-ratio: 16 / 9; background: var(--light-gray); border: 1px solid var(--gray);
+    background-image: url('https://daianayurzola.com/img/placeholder.png');
+    background-position: center; background-size: cover;
+    display: flex; align-items: flex-end; padding: 1rem; margin: 2.5rem 0 0;
+}
+.media .cap { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--gray); background: var(--white); padding: 0.4rem 0.7rem; border: 1px solid var(--gray); }
+.media--portrait { aspect-ratio: 3 / 4; }
+.media--tall { aspect-ratio: 4 / 5; }
+.media--phone { aspect-ratio: 1080 / 2400; max-width: 340px; margin-left: auto; margin-right: auto; }
+.media--wide { aspect-ratio: 21 / 9; }
+
+/* Carousel, phone screenshots (1080 × 2400) */
+.carousel { position: relative; width: 100%; max-width: 340px; margin: 0 auto; aspect-ratio: 1080 / 2400; border: 1px solid var(--gray); background: var(--light-gray); overflow: hidden; }
+.carousel .slide {
+    position: absolute; inset: 0; opacity: 0; transition: opacity 0.6s ease;
+    background-image: url('https://daianayurzola.com/img/placeholder.png');
+    background-size: cover; background-position: center;
+    display: flex; align-items: flex-end; padding: 0.75rem;
+}
+.carousel .slide.active { opacity: 1; }
+.carousel .slide .cap { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--gray); background: var(--white); padding: 0.3rem 0.55rem; border: 1px solid var(--gray); }
+.carousel-dots { display: flex; gap: 0.5rem; justify-content: center; margin-top: 1rem; }
+.carousel-dots button { width: 9px; height: 9px; border: 1px solid var(--black); background: var(--white); padding: 0; cursor: pointer; transition: background 0.3s ease; }
+.carousel-dots button.active { background: var(--black); }
+
+/* Clickable media + lightbox */
+.media, .carousel { cursor: zoom-in; }
+.lightbox { position: fixed; inset: 0; z-index: 2000; background: rgba(0,0,0,0.92); display: none; align-items: center; justify-content: center; padding: 6vh 5vw; }
+.lightbox.open { display: flex; }
+.lightbox img { max-width: 92vw; max-height: 86vh; object-fit: contain; background: var(--light-gray); border: 1px solid rgba(255,255,255,0.2); }
+.lightbox-close {
+    position: fixed; top: 1.5rem; right: 1.5rem; z-index: 2001;
+    background: transparent; color: var(--white); border: 1px solid var(--white); cursor: pointer;
+    font-family: 'Work Sans', sans-serif; font-weight: 500; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em;
+    padding: 0.55rem 1.1rem; transition: background 0.3s ease, color 0.3s ease;
+}
+.lightbox-close:hover { background: var(--white); color: var(--black); }
+
+
+/* Quote */
+.quote { border-left: 3px solid var(--black); padding-left: 1.75rem; margin: 0 0 1.75rem; }
+.quote p { font-family: 'Abril Fatface', serif; font-size: 1.35rem; line-height: 1.35; letter-spacing: -0.01em; }
+
+/* Closing */
+.close { padding: 8rem 0; text-align: center; }
+.close .script { font-size: clamp(2.5rem, 6vw, 5rem); color: var(--gray); line-height: 1; display: block; margin-bottom: 1rem; }
+.close .pull { margin: 0 auto 2.5rem; text-align: center; }
+
+footer { padding: 3rem 5vw; border-top: 1px solid var(--black); text-align: center; }
+footer p { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--gray); }
+
+/* Reveal on scroll */
+.reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- ============================ NAV ============================ -->
+<nav class="nav">
+    <a href="https://daianayurzola.com/" class="logo">Daiana Yurzola</a>
+    <a href="https://daianayurzola.com/" class="back">← Back to portfolio</a>
+</nav>
+
+<!-- ============================ HERO ============================ -->
+<header class="hero">
+    <div class="container">
+        <h1>Your Upgrade</h1>
+        <h2>by Dr. Colleen</h2>
+        <p class="lede-lg" style="margin-top:3rem;">Designing an App to support women 35+ navigating hormonal changes.</p>
+        <p class="lede">YU is a women's health platform that turns Peri + Menopause support into an ongoing conversation. I led the product design end-to-end, from research and strategy to the design and development of this AI-powered platform, in collaboration with founder and women’s health expert Dr. Colleen Fogarty Draper.</p>
+
+        <div class="meta">
+            <div>
+                <div class="label">Role</div>
+                <div class="value">Lead Product Designer, research, UX/UI, design system, AI &amp; prompt design</div>
+            </div>
+            <div>
+                <div class="label">Collaborator</div>
+                <div class="value">Dr. Colleen Fogarty Draper, PhD, RD, Nutrition Scientist &amp; Clinical Dietitian</div>
+            </div>
+            <div>
+                <div class="label">Tools</div>
+                <div class="value">Lyssna · Figma · Claude · Claude API · React · Other AI tools</div>
+            </div>
+            <div>
+                <div class="label">Timeline</div>
+                <div class="value">14 weeks · end-to-end</div>
+            </div>            
+        </div>
+
+        <div class="tags">
+            <span class="tag">UX Research</span>
+            <span class="tag">Personalization</span>
+            <span class="tag">Design System</span>
+            <span class="tag">UI Design</span>
+            <span class="tag">Conversational AI</span>
+            <span class="tag">Prompt &amp; Guardrail Design</span>
+
+        </div>
+
+        <div class="btn-row">
+            <a class="btn btn--solid" href="https://daianayurzola.com/dr-colleen-app/demo/?demo=quick" target="_blank" rel="noopener">Try the demo →</a>
+        </div>
+    </div>
+</header>
+
+<!-- ============================ 01 OVERVIEW ============================ -->
+<section class="section" id="overview">
+    <div class="container">
+        <div class="section-head">
+            <div class="section-number">01</div>
+            <h2>The project</h2>
+        </div>
+        <div class="cols">
+            <div>
+                <p class="lede-lg">Menopause is not the end of who a woman was. It is the beginning of who she is becoming.</p>
+            </div>
+            <div>
+                <p class="body">YU, short for <b>Your Upgrade</b>, is built on a simple belief: women don't need to be fixed, and they don't need to start over. They need support that evolves as their bodies do, information they can trust, and guidance that recognizes their individual experience.</p>
+                <p class="body">Founded by women’s health expert Dr. Colleen Fogarty Draper, YU combines her clinical expertise with technology to deliver guidance that feels both personal and trustworthy. My role was to design that experience, and address the challenge of keeping women engaged over time.</p>
+            </div>
+        </div>
+        <div class="media" style="aspect-ratio:21/9; background-image:url('img/app-overview.png'); background-size:contain; background-repeat:no-repeat; background-position:center; background-color:#fff;">
+            <span class="cap">App overview · AI assistant &amp; key screens</span>
+        </div>
+    </div>
+</section>
+
+<!-- ============================ 02 THE PROBLEM ============================ -->
+<section class="section" id="problem">
+    <div class="container">
+        <div class="section-head">
+            <div class="section-number">02</div>
+            <h2>The problem</h2>
+        </div>
+        <div class="cols">
+            <div>
+                <div class="quote"><p>"Something has changed, but no one is helping me understand what it is."</p></div>
+                <p class="body">For generations, menopause has lived inside a <b>culture of silence</b>. Symptoms begin subtly; disrupted sleep, mood shifts, brain fog, weight changes, and women navigate them without reliable answers, often dismissed by a system that reduces them to isolated symptoms.</p>
+            </div>
+            <div>
+                <p class="body">Many women's health platforms rely on extensive data collection and ongoing tracking to deliver personalized support. While personalization can be valuable, the effort required to maintain it often becomes a burden. Users disengage before experiencing meaningful benefits, limiting the effectiveness of the support these systems are designed to provide.</p>
+                <p class="body">If tracking is a burden busy women won't sustain. The real challenge is not collecting data <i>once</i>. It is remaining relevant across a multi-year, ever-shifting transition.</p>
+            </div>
+        </div>
+
+        <p class="lede-lg" style="text-align:left; margin-top:5rem;">How do you turn one-time data collection into an ongoing relationship?</p>
+
+        <p class="body" style="max-width:60ch;">Early research, interviews and an onboarding redesign, surfaced the principles that would shape everything after:</p>
+        <div class="insights">
+            <div class="insight"><span class="n">01</span><span class="t"><b>Trust is built through relevance.</b> Women shared sensitive health data willingly, but only when each question felt relevant and the value exchange was clear.</span></div>
+            <div class="insight"><span class="n">02</span><span class="t"><b>A real expert changes everything.</b> Showing the real person behind the product, Dr. Colleen, and being transparent about data use built confidence no privacy policy could.</span></div>
+            <div class="insight"><span class="n">03</span><span class="t"><b>One size fits no one.</b> Women sit on a spectrum between the <b>Achiever</b> (few symptoms, wants efficiency) and the <b>Struggler</b> (severe symptoms, needs validation), and they can't be served the same way.</span></div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================ 03 THE PIVOT ============================ -->
+<section class="section" id="pivot">
+    <div class="container">
+        <div class="section-head">
+            <div class="section-number">03</div>
+            <h2>The pivot</h2>
+        </div>
+        <div class="cols" style="align-items:start;">
+            <div>
+                <p class="lede-lg" style="margin-top:0;">The missing piece wasn't another tracker. <br/> It was a conversation.</p>
+                <p class="body">My initial solution was a dynamic dashboard featuring personalized recommendations, a tracker, and quick logging tools. But as I reviewed it, one question kept surfacing: <b>would women realistically maintain all this tracking over time?</b><br/> The research said no.</p>
+                <p class="body">Then an exploratory survey revealed something I didn't expect. Instead of using health apps, many women were turning to Reddit and conversational AI, asking ChatGPT health-related questions in search of answers they couldn't find elsewhere.</p>
+                <p class="body">The missing piece wasn't another tracker. It was a different <b>interaction pattern</b>: an ongoing conversation. So YU pivoted to feature an AI assistant as its primary interface, grounded in Dr. Colleen's curated expertise. The goal was to combine the accessibility of the conversational AI with the credibility of a trusted health expert.</p>
+            </div>
+            <div>
+                <div class="media media--tall" style="margin-top:0; background-image:url('img/the-pivot.png'); background-size:cover;">
+                    <span class="cap">Dashboard draft → conversational interface</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================ 04 THE SOLUTION ============================ -->
+<section class="section" id="solution">
+    <div class="container">
+        <div class="section-head">
+            <div class="section-number">04</div>
+            <h2>The solution</h2>
+        </div>
+        <div class="cols cols--narrow" style="align-items:start;">
+            <div>
+                <p class="lede-lg" style="margin-top:0;">An AI assistant that transforms symptoms into understanding, data into insight, and uncertainty into action.</p>
+                <p class="body"><b>A personalization engine</b> builds a living profile from each woman's symptoms, goals, hormonal phase, and habits, so guidance fits her, and keeps adapting as she changes. Every conversation becomes lightweight tracking, no forms required.</p>
+                <p class="body"><b>Conversation connects the whole app.</b> The chat can log symptoms to the tracker, save supplements and foods, surface trusted resources, and build a shareable health report, so insight flows straight into action across the experience.</p>
+                <p class="body"><b>Trust by design.</b> The assistant is a transparent intermediary: it attributes every recommendation to Dr. Colleen and never pretends to be her. If user needs it, it also offers a direct line to reach her.</p>
+            </div>
+            <div>
+                <!--
+                    TODO: drop 4 phone screenshots (1080×2400 portrait) into ./img/ and
+                    enable the carousel slides below. Suggested filenames:
+                      img/screen-chat.png  · img/screen-save.png
+                      img/screen-report.png · img/screen-tracker.png
+                <div class="carousel" data-carousel>
+                    <div class="slide active" style="background-image:url('img/screen-chat.png'); background-size:cover;"></div>
+                    <div class="slide" style="background-image:url('img/screen-save.png'); background-size:cover;"></div>
+                    <div class="slide" style="background-image:url('img/screen-report.png'); background-size:cover;"></div>
+                    <div class="slide" style="background-image:url('img/screen-tracker.png'); background-size:cover;"></div>
+                </div>
+                <div class="carousel-dots" data-carousel-dots></div>
+                -->
+                <div class="media media--phone" style="margin:0; background-image:none; background-color:var(--light-gray);">
+                    <span class="cap">Screen captures coming soon</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="media media--wide" style="background-image:url('img/personalization-engine.png'); background-size:contain; background-repeat:no-repeat; background-position:center; background-color:#fff;">
+            <span class="cap">personalization engine</span>
+        </div>
+
+        <p class="body" style="margin-top:5rem;"><b>One assistant, three ways of meeting you.</b> The engine places each woman on the Achiever–Struggler spectrum and adapts tone, pace, and depth:</p>
+        <div class="modes">
+            <div class="mode">
+                <div class="k">For Achievers</div>
+                <h3>Quick</h3>
+                <p>Concise, action-oriented answers. Minimal friction, no preamble, built for speed and autonomy.</p>
+            </div>
+            <div class="mode">
+                <div class="k">In between</div>
+                <h3>Balanced</h3>
+                <p>Warm but efficient. Acknowledges concerns, helps prioritize, and offers a few clear paths to choose from.</p>
+            </div>
+            <div class="mode">
+                <div class="k">For Strugglers</div>
+                <h3>Support</h3>
+                <p>Empathetic and step-by-step. One issue at a time, small manageable actions, room to pause.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================ 05 ITERATIONS ============================ -->
+<section class="section" id="iterations">
+    <div class="container">
+        <div class="section-head">
+            <div class="section-number">05</div>
+            <h2>Four rounds of testing</h2>
+        </div>
+        <p class="body" style="max-width:60ch;">User testing wasn't a checkpoint, it was the engine of the design. Four rounds reshaped the product.</p>
+        <div class="steps">
+            <div class="step">
+                <div class="num">01</div>
+                <div>
+                    <div class="k">Test the whole, not the parts</div>
+                    <h3>The experience only makes sense connected</h3>
+                    <p>Testing the intake and the chat separately confused everyone, women didn't realize they were one system. I rebuilt a connected prototype so they could live the full journey. Adding a direct line to Dr. Colleen noticeably deepened their trust.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="num">02</div>
+                <div>
+                    <div class="k">Build it for real</div>
+                    <h3>A working app, not a mockup</h3>
+                    <p>I consolidated three artifacts, intake, the chat engine, and the app, into one functional prototype. Women engaged deeply, reading recommendations and asking follow-ups. One said, "It remembers everything about me."</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="num">03</div>
+                <div>
+                    <div class="k">Fix the personalization</div>
+                    <h3>Almost everyone landed in "Support"</h3>
+                    <p>Women select every symptom that applies, so a simple count over-flagged them as Strugglers. I reweighted the model around <b>severity, mood, and sleep</b> instead of symptom count, and added a save-checklist so women control exactly what gets saved, and where.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="num">04</div>
+                <div>
+                    <div class="k">Refine voice &amp; value</div>
+                    <h3>From clinical to conversational</h3>
+                    <p>The assistant still read like a checklist, so I rewrote prompts and guardrails to warm its tone and restructured messages for readability. I also brought back the Health Report after testing proved its worth as immediate, shareable proof of value.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================ 06 OUTCOME ============================ -->
+<section class="section" id="outcome">
+    <div class="container">
+        <div class="section-head">
+            <div class="section-number">06</div>
+            <h2>Outcome &amp; reflection</h2>
+        </div>
+        <div class="cols">
+            <div>
+                <p class="body">The result is a AI-powered mobile platform where <b>conversation drives engagement</b>, an experience that adapts in real time and connects every part of the app. In testing, women engaged deeply and felt understood.</p>
+                <div class="quote"><p>"There's a lot of information here, and I'm not overwhelmed, I'm excited and want to explore."</p></div>
+            </div>
+            <div>
+                <p class="body"><b>Designing with AI is a design discipline.</b> Prompt design, guardrails, and curated knowledge shape the experience as much as any screen, and demand real care around safety and consistency.</p>
+                <p class="body"><b>Trust is the foundation.</b> Without it women won't share; without sharing there's no personalization. Every interaction has to keep earning it.</p>
+                <p class="body"><b>Next Steps:</b> a customizable notification system to extend the conversation beyond the app and keep women supported over time.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================ CLOSE ============================ -->
+<section class="close">
+    <div class="container">
+        <p class="pull pull--center" style="margin-bottom:0;">Every upgrade</p>
+        <p class="pull pull--center">begins with a conversation.</p>
+        <div class="btn-row" style="justify-content:center;">
+            <a class="btn btn--solid" href="https://daianayurzola.com/dr-colleen-app/demo/?demo=quick" target="_blank" rel="noopener">Try the demo →</a>
+            <a class="btn" href="https://daianayurzola.com/">← Back to portfolio</a>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>Designed by Daiana Yurzola · In collaboration with Dr. Colleen Fogarty Draper, PhD, RD</p>
+</footer>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-modal="true">
+    <button class="lightbox-close" id="lightboxClose" type="button">Close ✕</button>
+    <img id="lightboxImg" src="" alt="">
+</div>
+
+<script>
+    // Scroll reveal, opacity + transform only (60fps)
+    const revealEls = document.querySelectorAll('.section-head, .cols, .lede-lg, .insights, .modes, .steps, .pull--center, .media, .quote, .close .script, .close .pull');
+    revealEls.forEach(el => el.classList.add('reveal'));
+    const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => io.observe(el));
+
+    // Carousel(s), auto-rotate phone screenshots, with clickable dots
+    document.querySelectorAll('[data-carousel]').forEach(car => {
+        const slides = Array.from(car.querySelectorAll('.slide'));
+        const dotsWrap = car.parentElement.querySelector('[data-carousel-dots]');
+        if (!slides.length) return;
+        let i = 0;
+        const dots = slides.map((_, idx) => {
+            const b = document.createElement('button');
+            b.type = 'button';
+            b.setAttribute('aria-label', 'Go to slide ' + (idx + 1));
+            if (dotsWrap) dotsWrap.appendChild(b);
+            b.addEventListener('click', () => { go(idx); restart(); });
+            return b;
+        });
+        function go(n) {
+            slides[i].classList.remove('active'); dots[i] && dots[i].classList.remove('active');
+            i = (n + slides.length) % slides.length;
+            slides[i].classList.add('active'); dots[i] && dots[i].classList.add('active');
+        }
+        go(0);
+        let timer = setInterval(() => go(i + 1), 3500);
+        function restart() { clearInterval(timer); timer = setInterval(() => go(i + 1), 3500); }
+    });
+
+    // Lightbox — click any image/media to open it bigger
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lightboxImg');
+    function bgUrl(el) {
+        const b = getComputedStyle(el).backgroundImage;
+        const m = b && b.match(/url\(["']?(.*?)["']?\)/);
+        return m ? m[1] : null;
+    }
+    function openLightbox(url, alt) {
+        if (!url) return;
+        lbImg.src = url; lbImg.alt = alt || '';
+        lb.classList.add('open'); lb.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+        lb.classList.remove('open'); lb.setAttribute('aria-hidden', 'true');
+        lbImg.src = ''; document.body.style.overflow = '';
+    }
+    // Standalone media blocks
+    document.querySelectorAll('.media').forEach(m => {
+        m.addEventListener('click', () => openLightbox(bgUrl(m), m.querySelector('.cap')?.textContent));
+    });
+    // Carousels open the currently visible slide
+    document.querySelectorAll('[data-carousel]').forEach(car => {
+        car.addEventListener('click', () => {
+            const active = car.querySelector('.slide.active') || car.querySelector('.slide');
+            if (active) openLightbox(bgUrl(active), active.querySelector('.cap')?.textContent);
+        });
+    });
+    document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+    lb.addEventListener('click', e => { if (e.target === lb) closeLightbox(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+</script>
+</body>
+</html>
