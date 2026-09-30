@@ -285,6 +285,7 @@ a { color: inherit; }
 }
 /* Wrapper for media + caption credit — sits in the left grid column */
 .featured-media-col {
+    width: 100%;                     /* the animation iframe has no intrinsic size, unlike the old video */
     max-width: 512px;                /* sized so the square video's bottom lands on the CTA's second-row bottom */
     justify-self: start;             /* left-align in its grid column */
 }
@@ -1150,12 +1151,13 @@ footer p {
         <div class="featured-hero">
             <div class="featured-media-col">
                 <div class="featured-media" id="featuredMedia">
-                    <!-- Placeholder video. Swap `src` with the real Your Upgrade teaser (mp4) when ready.
-                         `poster` shows on first paint and while the video buffers. -->
-                    <video class="featured-video"
-                           src="https://daianayurzola.com/dr-colleen-app/files/app_demo.mp4"
-                    
-                           autoplay loop muted playsinline></video>
+                    <!-- The v03 app screens moving through a phone (dr-colleen-app/animation,
+                         built from the case study's carousel images). -->
+                    <iframe class="featured-video"
+                            src="/dr-colleen-app/animation/"
+                            title="Get YU app screens"
+                            loading="lazy" tabindex="-1" aria-hidden="true"
+                            style="border:0; pointer-events:none;"></iframe>
                 </div>
             </div>
             <div class="featured-text-col">

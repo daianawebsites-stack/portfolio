@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Get YU app screens</title>
+<!-- Homepage feature animation: the v03 app screens (the case study's
+     carousel images) moving through a phone on the Get YU gradient. -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Newsreader:ital,opsz,wght@0,6..72,500;1,6..72,600&display=swap" rel="stylesheet" />
+<style>
+  :root{ --brand:#21115C; --gold:#A99B70; --frame:#1d1a2b; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html,body{ width:100%; height:100%; overflow:hidden; }
+  body{
+    background:linear-gradient(150deg,#ECE7D9 0%,#F7F7F5 26%,#F8F5E9 46%,#F7F7F5 70%,#EBE5F8 100%);
+    font-family:'Montserrat',-apple-system,Helvetica,Arial,sans-serif; color:var(--brand);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    /* The phone's height drives every other size, so any box shape works. */
+    --ph:min(76vh, 150vw);
+    --pw:calc(var(--ph) * 0.45);
+  }
+  .caption{ text-align:center; margin-bottom:calc(var(--ph) * 0.045); height:calc(var(--ph) * 0.1); }
+  .caption .bar{ width:calc(var(--ph) * 0.05); height:calc(var(--ph) * 0.007); background:var(--gold); margin:0 auto calc(var(--ph) * 0.02); }
+  .caption .kicker{ font-size:calc(var(--ph) * 0.022); font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:#77642F; }
+  .caption .title{ font-family:'Newsreader',Georgia,serif; font-weight:500; font-size:calc(var(--ph) * 0.05); line-height:1.15; margin-top:calc(var(--ph) * 0.008); }
+  .caption .title em{ font-style:italic; font-weight:600; }
+  .caption > div{ transition:opacity .45s ease, transform .45s ease; }
+  .caption.out > div{ opacity:0; transform:translateY(6px); }
+
+  .stage{ position:relative; width:100%; height:var(--ph); }
+  .phone{
+    position:absolute; left:50%; top:0; width:var(--pw); height:var(--ph);
+    margin-left:calc(var(--pw) / -2);
+    border-radius:calc(var(--pw) * 0.13); border:calc(var(--pw) * 0.03) solid var(--frame);
+    background:#fff; overflow:hidden;
+    box-shadow:0 calc(var(--ph) * 0.04) calc(var(--ph) * 0.08) calc(var(--ph) * -0.03) rgba(33,17,92,.35);
+    transition:transform .9s cubic-bezier(.65,0,.35,1), opacity .9s ease, filter .9s ease;
+    will-change:transform, opacity;
+  }
+  .phone img{ display:block; width:100%; height:100%; object-fit:cover; }
+  .phone[data-pos="0"]{ transform:none; opacity:1; z-index:3; }
+  .phone[data-pos="-1"]{ transform:translateX(-78%) scale(.8); opacity:.55; filter:saturate(.8); z-index:2; }
+  .phone[data-pos="1"]{ transform:translateX(78%) scale(.8); opacity:.55; filter:saturate(.8); z-index:2; }
+  .phone[data-pos="-2"]{ transform:translateX(-140%) scale(.64); opacity:0; z-index:1; }
+  .phone[data-pos="2"]{ transform:translateX(140%) scale(.64); opacity:0; z-index:1; }
+  .phone[data-pos="far"]{ opacity:0; transform:scale(.6); z-index:0; }
+
+  @media (prefers-reduced-motion: reduce){
+    .phone, .caption > div{ transition:none; }
+  }
+</style>
+</head>
+<body>
+  <div class="caption" id="caption" aria-live="off">
+    <div class="bar"></div>
+    <div class="kicker" id="kicker"></div>
+    <div class="title" id="title"></div>
+  </div>
+  <div class="stage" id="stage"></div>
+
+<script>
+  // Screens from the case study's "The solution" carousel (1080x2400).
+  const BASE = "../case-study/img/app-screens/";
+  const SCREENS = [
+    ["01", "Onboarding", "Meet <em>Dr. Colleen</em>"],
+    ["08", "Onboarding", "A short, caring <em>intake</em>"],
+    ["15", "Home", "A home that <em>gets you</em>"],
+    ["17", "AI Assistant", "Ask <em>anything</em>"],
+    ["18", "AI Assistant", "Dr. Colleen's <em>recommendations</em>"],
+    ["23", "My Supplements", "What to take, <em>and why</em>"],
+    ["26", "Tracker", "See your <em>progress</em>"],
+    ["20", "Health Report", "Your results <em>in one place</em>"],
+  ];
+  const HOLD = 2800;
+  const stage = document.getElementById("stage");
+  const caption = document.getElementById("caption");
+  const phones = SCREENS.map(([n], i) => {
+    const el = document.createElement("div");
+    el.className = "phone";
+    el.innerHTML = `<img src="${BASE}${n}.png" alt="" ${i > 2 ? 'loading="lazy"' : ""}>`;
+    stage.appendChild(el);
+    return el;
+  });
+  let current = 0;
+  function layout() {
+    const N = phones.length;
+    phones.forEach((el, i) => {
+      let d = (i - current + N) % N;
+      if (d > N / 2) d -= N;
+      el.dataset.pos = Math.abs(d) <= 2 ? String(d) : "far";
+    });
+    const [, kicker, title] = SCREENS[current];
+    caption.classList.add("out");
+    setTimeout(() => {
+      document.getElementById("kicker").textContent = kicker;
+      document.getElementById("title").innerHTML = title;
+      caption.classList.remove("out");
+    }, 300);
+  }
+  layout();
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  setInterval(() => { current = (current + 1) % phones.length; layout(); }, reduce ? HOLD * 2 : HOLD);
+</script>
+</body>
+</html>
