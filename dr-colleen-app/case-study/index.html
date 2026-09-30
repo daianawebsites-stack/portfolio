@@ -3,25 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>YU, Designing an AI Companion for Menopause · Daiana Yurzola</title>
-<meta name="description" content="A case study on YU (Your Upgrade): designing an AI-powered women's health platform that turns perimenopause and menopause support into an ongoing conversation. Research, strategy, UX, and prompt design end-to-end.">
-<link rel="canonical" href="https://daianayurzola.com/case-study/">
+<title>Get YU, Designing an AI Companion for Menopause · Daiana Yurzola</title>
+<meta name="description" content="A case study on Get YU by Dr. Colleen: designing an AI-powered women's health platform that turns perimenopause and menopause support into an ongoing conversation. Research, strategy, UX, and prompt design end-to-end.">
+<link rel="canonical" href="https://daianayurzola.com/dr-colleen-app/case-study/">
 
 <!-- Open Graph (Facebook, LinkedIn, iMessage, Slack, Discord) -->
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://daianayurzola.com/case-study/">
-<meta property="og:title" content="YU, Designing an AI Companion for Menopause · Daiana Yurzola">
-<meta property="og:description" content="A case study on YU (Your Upgrade): designing an AI-powered women's health platform that turns perimenopause and menopause support into an ongoing conversation.">
-<meta property="og:image" content="https://daianayurzola.com/case-study/img/app-overview.png">
+<meta property="og:url" content="https://daianayurzola.com/dr-colleen-app/case-study/">
+<meta property="og:title" content="Get YU, Designing an AI Companion for Menopause · Daiana Yurzola">
+<meta property="og:description" content="A case study on Get YU by Dr. Colleen: designing an AI-powered women's health platform that turns perimenopause and menopause support into an ongoing conversation.">
+<meta property="og:image" content="https://daianayurzola.com/dr-colleen-app/case-study/img/app-overview.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="660">
-<meta property="og:image:alt" content="YU app overview — AI assistant and key screens">
+<meta property="og:image:alt" content="Get YU app overview: AI assistant and key screens">
 
 <!-- Twitter / X large-image card -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="YU, Designing an AI Companion for Menopause · Daiana Yurzola">
-<meta name="twitter:description" content="A case study on YU (Your Upgrade): designing an AI-powered women's health platform that turns perimenopause and menopause support into an ongoing conversation.">
-<meta name="twitter:image" content="https://daianayurzola.com/case-study/img/app-overview.png">
+<meta name="twitter:title" content="Get YU, Designing an AI Companion for Menopause · Daiana Yurzola">
+<meta name="twitter:description" content="A case study on Get YU by Dr. Colleen: designing an AI-powered women's health platform that turns perimenopause and menopause support into an ongoing conversation.">
+<meta name="twitter:image" content="https://daianayurzola.com/dr-colleen-app/case-study/img/app-overview.png">
 
 <link rel="icon" type="image/x-icon" href="https://daianayurzola.com/img/favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -64,10 +64,17 @@ a { color: inherit; }
     background: var(--white);
     border-bottom: 1px solid var(--black);
 }
-.nav .logo { font-family: 'Ms Madi', cursive; font-size: clamp(1.8rem, 3.5vw, 2.5rem); line-height: 1; text-decoration: none; }
+.nav .logo { font-family: 'Ms Madi', cursive; font-size: clamp(1.75rem, 3vw, 2.5rem); line-height: 1; text-decoration: none; }
 .nav .back {
     font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em;
     text-decoration: none; border-bottom: 1px solid var(--black); padding-bottom: 2px;
+}
+/* Match the portfolio's mobile nav: shorter padding + fixed-size signature
+   so the "Daiana Yurzola" logo looks identical across both pages on phones. */
+@media (max-width: 768px) {
+    .nav { padding: 0.85rem 4vw; gap: 0.75rem; }
+    .nav .logo { font-size: 1.35rem; }
+    .nav .back { font-size: 0.65rem; letter-spacing: 0.1em; }
 }
 
 /* ============================================================
@@ -258,10 +265,10 @@ footer p { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.18em
 <!-- ============================ HERO ============================ -->
 <header class="hero">
     <div class="container">
-        <h1>Your Upgrade</h1>
+        <h1>Get YU</h1>
         <h2>by Dr. Colleen</h2>
         <p class="lede-lg" style="margin-top:3rem;">Designing an App to support women 35+ navigating hormonal changes.</p>
-        <p class="lede">YU is a women's health platform that turns Peri + Menopause support into an ongoing conversation. I led the product design end-to-end, from research and strategy to the design and development of this AI-powered platform, in collaboration with founder and women’s health expert Dr. Colleen Fogarty Draper.</p>
+        <p class="lede">Get YU is a women's health platform that turns Peri + Menopause support into an ongoing conversation. I led the product design end-to-end, from research and strategy to the design and development of this AI-powered platform, in collaboration with founder and women’s health expert Dr. Colleen Fogarty Draper.</p>
 
         <div class="meta">
             <div>
@@ -310,8 +317,8 @@ footer p { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.18em
                 <p class="lede-lg">Menopause is not the end of who a woman was. It is the beginning of who she is becoming.</p>
             </div>
             <div>
-                <p class="body">YU, short for <b>Your Upgrade</b>, is built on a simple belief: women don't need to be fixed, and they don't need to start over. They need support that evolves as their bodies do, information they can trust, and guidance that recognizes their individual experience.</p>
-                <p class="body">Founded by women’s health expert Dr. Colleen Fogarty Draper, YU combines her clinical expertise with technology to deliver guidance that feels both personal and trustworthy. My role was to design that experience, and address the challenge of keeping women engaged over time.</p>
+                <p class="body">Get YU (<b>Your Upgrade</b> by Dr. Colleen) is built on a simple belief: women don't need to be fixed, and they don't need to start over. They need support that evolves as their bodies do, information they can trust, and guidance that recognizes their individual experience.</p>
+                <p class="body">Founded by women’s health expert Dr. Colleen Fogarty Draper, Get YU combines her clinical expertise with technology to deliver guidance that feels both personal and trustworthy. My role was to design that experience, and address the challenge of keeping women engaged over time.</p>
             </div>
         </div>
         <div class="media" style="aspect-ratio:21/9; background-image:url('img/app-overview.png'); background-size:contain; background-repeat:no-repeat; background-position:center; background-color:#fff;">
@@ -361,7 +368,7 @@ footer p { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.18em
                 <p class="lede-lg" style="margin-top:0;">The missing piece wasn't another tracker. <br/> It was a conversation.</p>
                 <p class="body">My initial solution was a dynamic dashboard featuring personalized recommendations, a tracker, and quick logging tools. But as I reviewed it, one question kept surfacing: <b>would women realistically maintain all this tracking over time?</b><br/> The research said no.</p>
                 <p class="body">Then an exploratory survey revealed something I didn't expect. Instead of using health apps, many women were turning to Reddit and conversational AI, asking ChatGPT health-related questions in search of answers they couldn't find elsewhere.</p>
-                <p class="body">The missing piece wasn't another tracker. It was a different <b>interaction pattern</b>: an ongoing conversation. So YU pivoted to feature an AI assistant as its primary interface, grounded in Dr. Colleen's curated expertise. The goal was to combine the accessibility of the conversational AI with the credibility of a trusted health expert.</p>
+                <p class="body">The missing piece wasn't another tracker. It was a different <b>interaction pattern</b>: an ongoing conversation. So Get YU pivoted to feature an AI assistant as its primary interface, grounded in Dr. Colleen's curated expertise. The goal was to combine the accessibility of the conversational AI with the credibility of a trusted health expert.</p>
             </div>
             <div>
                 <div class="media media--tall" style="margin-top:0; background-image:url('img/the-pivot.png'); background-size:cover;">
@@ -389,11 +396,11 @@ footer p { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.18em
             <div>
                 <!-- Slides auto-generated from data-screens + data-screen-base by the bootstrap below.
                      To add/remove screens, just rename files (01.png..NN.png) and update data-screens. -->
-                <div class="carousel" data-carousel data-screens="26" data-screen-base="img/app-screens"></div>
+                <div class="carousel" data-carousel data-screens="29" data-screen-base="img/app-screens"></div>
                 <div class="carousel-controls" data-carousel-controls>
                     <button class="carousel-btn carousel-prev" type="button" aria-label="Previous screen">‹</button>
-                    <span class="carousel-counter" data-carousel-counter aria-live="polite">1 / 26</span>
-                    <button class="carousel-btn carousel-playpause" type="button" aria-label="Pause autoplay">⏸</button>
+                    <span class="carousel-counter" data-carousel-counter aria-live="polite">1 / 29</span>
+                    <button class="carousel-btn carousel-playpause" type="button" aria-label="Pause autoplay">⏸&#xFE0E;</button>
                     <button class="carousel-btn carousel-next" type="button" aria-label="Next screen">›</button>
                 </div>
             </div>
@@ -567,12 +574,12 @@ footer p { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.18em
         function play() {
             clearInterval(timer);
             timer = setInterval(() => go(i + 1), INTERVAL_MS);
-            if (ppBtn) { ppBtn.textContent = '⏸'; ppBtn.setAttribute('aria-label', 'Pause autoplay'); }
+            if (ppBtn) { ppBtn.textContent = '⏸︎'; ppBtn.setAttribute('aria-label', 'Pause autoplay'); }
             isPaused = false;
         }
         function pause() {
             clearInterval(timer); timer = null;
-            if (ppBtn) { ppBtn.textContent = '▶'; ppBtn.setAttribute('aria-label', 'Play autoplay'); }
+            if (ppBtn) { ppBtn.textContent = '▶︎'; ppBtn.setAttribute('aria-label', 'Play autoplay'); }
             isPaused = true;
         }
         function restart() { if (!isPaused) play(); }
