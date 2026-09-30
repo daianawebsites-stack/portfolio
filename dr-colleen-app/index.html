@@ -3,24 +3,27 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Dr. Colleen · PhenomX Health</title>
-<meta name="description" content="Dr. Colleen — an AI companion for the menopause transition. Case studies and live prototype." />
+<title>Get YU by Dr. Colleen</title>
+<meta name="description" content="Get YU by Dr. Colleen, an AI companion for women navigating the menopause transition. Case studies and live demo." />
+<link rel="icon" type="image/svg+xml" href="/dr-colleen-app/img/getyu-app-icon.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,600&display=swap" rel="stylesheet" />
 <style>
   :root{
-    --brand:#21115C; --brand700:#4D417D; --gold:#A29062;
-    --text:#21115C; --muted:#7A709D; --line:#DDDFE8; --surface:#FFFFFF;
+    --brand:#21115C; --brand700:#4D417D; --gold:#A99B70; --gold-dark:#77642F;
+    --muted:#6B6390; --line:#DDDFE8; --surface:#FFFFFF;
     --radius:16px; --shadow:0 2px 8px rgba(33,17,92,.06), 0 8px 24px rgba(33,17,92,.05);
     --shadow-hover:0 6px 16px rgba(33,17,92,.10), 0 16px 40px rgba(33,17,92,.10);
   }
   *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ background:#F7F7F5; }
   body{
     font-family:'Montserrat',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
-    color:var(--text);
+    color:var(--brand);
     min-height:100vh;
-    background:#FFFFFF;
+    /* The app's canvas: the approved brand gradient. */
+    background:linear-gradient(150deg,#ECE7D9 0%,#F7F7F5 26%,#F8F5E9 46%,#F7F7F5 70%,#EBE5F8 100%) fixed;
     -webkit-font-smoothing:antialiased;
     display:flex; flex-direction:column; align-items:center;
     padding:64px 20px 48px;
@@ -28,49 +31,47 @@
   .wrap{ width:100%; max-width:680px; }
 
   /* Header */
-  header{ text-align:center; margin-bottom:40px; }
-  .mark{ margin:0 auto 32px; }
-  .mark .logo{ display:block; margin:0 auto; height:112px; width:auto; max-width:100%; }
-  .overline{ font-size:13px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--brand); margin-bottom:10px; }
-  h1{ font-size:40px; font-weight:700; letter-spacing:-1px; color:var(--brand); line-height:1.1; }
-  .tagline{ font-size:16px; font-weight:500; color:var(--muted); margin-top:12px; line-height:1.5; }
+  header{ text-align:center; margin-bottom:36px; }
+  .logo{ display:block; margin:0 auto 32px; width:320px; max-width:80%; height:auto; }
+  .bar{ width:41px; height:6px; background:var(--gold); margin:0 auto 14px; }
+  h1{ font-family:'Newsreader',Georgia,serif; font-weight:400; font-size:44px; line-height:1.1; letter-spacing:-.5px; }
+  h1 em{ font-style:italic; font-weight:600; }
+  .tagline{ font-size:16px; font-weight:400; color:var(--brand); margin-top:14px; line-height:1.55; }
 
   /* Section */
-  .section{ margin-top:34px; }
+  .section{ margin-top:32px; }
   .section-label{ font-size:12px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--muted); margin:0 0 12px 4px; }
 
   /* Cards */
   .grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
-  @media (max-width:560px){ .grid{ grid-template-columns:1fr; } body{ padding-top:44px; } h1{ font-size:32px; } }
+  @media (max-width:560px){ .br-wide{ display:none; } .grid{ grid-template-columns:1fr; } body{ padding-top:44px; } h1{ font-size:36px; } }
 
   .card{
     display:flex; flex-direction:column; gap:6px;
     background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
     box-shadow:var(--shadow); padding:20px 20px 18px; text-decoration:none; color:inherit;
     transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
-    position:relative; min-height:118px;
+    min-height:118px;
   }
   .card:hover{ transform:translateY(-3px); box-shadow:var(--shadow-hover); border-color:#C9C2DC; }
-  .card .tag{ font-size:11px; font-weight:700; letter-spacing:.6px; text-transform:uppercase; color:var(--gold); }
-  .card .tag.live{ color:var(--gold); }
-  .card h2{ font-size:18px; font-weight:600; color:var(--brand); line-height:1.3; letter-spacing:-.2px; }
+  .card:focus-visible{ outline:2px solid var(--brand); outline-offset:3px; }
+  .card .tag{ font-size:11px; font-weight:700; letter-spacing:.6px; text-transform:uppercase; color:var(--gold-dark); }
+  .card h2{ font-family:'Newsreader',Georgia,serif; font-size:21px; font-weight:500; color:var(--brand); line-height:1.25; }
   .card p{ font-size:13.5px; font-weight:500; color:var(--muted); line-height:1.5; margin-top:2px; }
   .card .arrow{ margin-top:auto; padding-top:10px; font-size:18px; color:var(--brand); transition:transform .18s ease; }
   .card:hover .arrow{ transform:translateX(4px); }
 
   footer{ margin-top:44px; font-size:12px; font-weight:500; color:var(--muted); text-align:center; }
-  footer a{ color:var(--brand); text-decoration:none; }
+  footer a{ color:var(--brand); text-decoration:none; font-weight:600; }
 </style>
 </head>
 <body>
   <div class="wrap">
 
     <header>
-      <div class="mark">
-        <img class="logo" src="https://daianayurzola.com/dr-colleen-app/img/your-upgrade-logo-tagline.svg" alt="YŪ | Your Upgrade By Dr. Colleen" />
-      </div>
-      <p class="tagline">A personalized and supportive health experience for women 35+ navigating hormonal changes in peri + meno + post.</p>
-      <p class="tagline">Explore the case studies or try the live prototypes.</p>
+      <img class="logo" src="/dr-colleen-app/img/getyu-tagline.svg" alt="Get YU, Your Upgrade by Dr. Colleen" />
+      <p class="tagline">A personalized health partner designed to help women 35+ navigate <br class="br-wide" />peri + meno + post and better understand the hormonal changes.</p>
+      <p class="tagline">Explore the case studies or try the live demo.</p>
     </header>
 
     <section class="section">
@@ -78,15 +79,15 @@
       <div class="grid">
         <a class="card" href="https://daianayurzola.com/phenomx-health-redesign/case-study/">
           <span class="tag">Case study</span>
-          <h2>PhenomX Health — Redesign</h2>
+          <h2>PhenomX Health Redesign</h2>
           <p>Onboarding redesign for the PhenomX Health platform.</p>
-          <span class="arrow">&rarr;</span>
+          <span class="arrow" aria-hidden="true">&rarr;</span>
         </a>
         <a class="card" href="https://daianayurzola.com/dr-colleen-app/case-study/index.html">
           <span class="tag">Case study</span>
-          <h2>YU By Dr. Colleen — AI Powered Mobile Application</h2>
-          <p>Designing and building a personalized and supportive health app for women 35+.</p>
-          <span class="arrow">&rarr;</span>
+          <h2>Get YU by Dr. Colleen</h2>
+          <p>Designing and building an AI-powered, personalized health app for women 35+.</p>
+          <span class="arrow" aria-hidden="true">&rarr;</span>
         </a>
       </div>
     </section>
@@ -95,16 +96,16 @@
       <p class="section-label">Live Prototype</p>
       <div class="grid">
         <a class="card" href="https://daianayurzola.com/dr-colleen-app/main/">
-          <span class="tag live">Live app</span>
+          <span class="tag">Live app</span>
           <h2>Main</h2>
-          <p>The full app — onboarding and full App, no sign-up needed.</p>
-          <span class="arrow">&rarr;</span>
+          <p>The full app, onboarding included. No sign-up needed.</p>
+          <span class="arrow" aria-hidden="true">&rarr;</span>
         </a>
         <a class="card" href="https://daianayurzola.com/dr-colleen-app/demo/">
-          <span class="tag live">Live demo</span>
+          <span class="tag">Live demo</span>
           <h2>Demo Profiles</h2>
-          <p>Getaway with sample profiles</p>
-          <span class="arrow">&rarr;</span>
+          <p>A gateway to sample member, free and trial profiles.</p>
+          <span class="arrow" aria-hidden="true">&rarr;</span>
         </a>
       </div>
     </section>
